@@ -11,8 +11,18 @@ The DShieldManager project is intended for use with multiple DShield honeypots t
 
 For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 
-
 ![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/00-banner.png "DShieldManager")
+
+## Features
+- Collect honeypot, firewall, tty and download logs from DShield honeypots into local storage.
+- Perform and collect full packet capture (hourly files, daily wrapup) for all honeypots.
+- Import honeypot .json logs for all sensors by date into sqlite3 database for analyisis.
+- Import ALL honeypot .json logs for all sensors for ALL OF TIME into sqlite3 database for analyis.
+- Execute remote commands on sensors.
+- Provide graphic analysis of honeypot, firewall, tty and download log file sizes to detect abnormaly sized logfiles.
+- Provide graphic analysis of packet file sizes in both daily "YYYY-MM-DD.tar.gz" format as well as extracted .pcap files.
+- Perform a full archive of all logged data over time for historical analysis
+
 
 ## Acknowledgements
 
