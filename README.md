@@ -10,6 +10,7 @@ Everybody is welcome to use the information collected by us and desimminated via
 The DShieldManager project is intended for use with multiple DShield honeypots to gather and aggregate data into a large local data store for research and analysis.
 
 For the impatient, consult Getting Started.
+![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/00-banner.png "DShieldManager")
 
 ## Acknowledgements
 
