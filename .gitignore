@@ -19,6 +19,7 @@ agents/*
 # My local Data store, private.  
 Data/*
 
+bin/deprecate/*
 testAgent/
 logAgents.config
 packetAgents.config
