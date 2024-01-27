@@ -6,17 +6,17 @@ is nearly as responsible as the movie "Krull" back in the day but I digress.
 My "I want informaton about a specific IP address" process cobbles togther output from four sources, all of 
 which require an account and an API key.
 
-- ipInfo.io via the ipinfo.bash script
+- <a href="https://ipinfo.io">ipInfo.io</a> via the ipinfo.bash script
 (Edit to declare YOUR API key.)
 
-- criminalIP.io via the criminalIpReport.py script
+- <a href="https://criminalip.io">criminalIP.io</a> via the criminalIpReport.py script
 (Edit to declare YOUR API key.) 
 
-- virustotal via the vt executable in $dshieldDirectory/bin
+- <a href="https://virustotal.com">virustotal</a> via the vt executable in $dshieldDirectory/bin
 (https://github.com/VirusTotal/vt-cli_)
 vt init to add your API key.
 
-- Shodan via the Shodan CLI 
+- <a href="https://www.shodan.io/">Shodan</a> via the Shodan CLI 
 (Install via "pip install -U --user shodan", then initialize with "shodan init YOUR_API_KEY".)
 
 Usage:
