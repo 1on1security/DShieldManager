@@ -23,3 +23,5 @@ Usage:
 skrull.bash $ipAddress $ipAddress $ipAddress
 ($1, $2, $3 are captured allowing a total of three IP addresses per query.)
 
+
+(/img/SkrullReport.png)
