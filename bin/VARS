@@ -1,0 +1,35 @@
+# VARS
+dshieldDirectory=/data/dshieldManager
+
+# "All the sensors"
+probes=(africa24 australia24 eastasia24 eastus24 europe24 india24 israel24 korea24 southamerica24 southeastasia24 westus24)
+domain=nullusspecialis.com
+
+# Datestamp
+datestamp=$(date +"%Y-%m-%d")
+
+# Where do we build databases and/or store sql statements?
+dbDir=$dshieldDirectory/db
+sqlDir=$dshieldDirectory/db/sql
+
+# SSH Vars
+user=dshield
+sshPort=12222
+dshieldSSH=$dshieldDirectory/bin/ssh
+sshKey=/data/dshieldManager/bin/ssh/dshield-key.pem
+
+imageViewer=/usr/bin/gpicview
+
+# Security Onion items
+onionServer=dshield-so-import.1on1.lan
+onionUser=nefario
+
+# This empty date assignment is needed for userDateSelection in FUNCTIONS
+date=
+export DATEMSK=/dshieldManager/packets/time_formats
+
+# These will likely deprecate soon as I simplify the functions and menu.
+
+logDir=$dshieldDirectory/Data
+packetDir=$dshieldDirectory/packets
+packetArchive=$dshieldDirectory/archive/packets

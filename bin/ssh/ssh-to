@@ -1,0 +1,3 @@
+#!/bin/sh
+sshKey=/data/dshieldManager/bin/ssh/dshield-key.pem
+/usr/bin/ssh -i $sshKey dshield@`basename $0`.nullusspecialis.com -p 12222 $*

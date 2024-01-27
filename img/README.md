@@ -1,0 +1,2 @@
+## /img
+Images live here.

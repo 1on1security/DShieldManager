@@ -1,0 +1,253 @@
+# FUNCTIONS
+displayBanner() {
+    clear
+    head -n 1 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 2 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 3 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 4 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 5 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 6 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 7 $dshieldDirectory/bin/banner.txt; sleep .25
+    head -n 8 $dshieldDirectory/bin/banner.txt; sleep .5
+    echo
+}
+
+userDateSelection() {
+date="$(dialog --stdout --date-format %Y-%m-%d --calendar "Select a Date.  Limited to one day." 0 0 15 01 2024)"
+echo
+echo $date
+
+# Validate date input restricts to years 2022-2024, and "calendar valid" MM and DD
+if [[ $date =~ ^[2][0][2][2-5]{1}-[0-1]{1}[0-2]{1}-[0-3]{1}[0-9]{1}$ ]]
+  then echo .
+        echo "Date format is valid, fetching data for $date"
+  else echo .
+        echo "Invalid format (not YYYY-MM-DD or not in allowed range.)"
+        date=
+        read -n 1 -s -r -p "Press any key to continue"
+        clear
+fi
+}
+
+honeypot2SQL() {
+    /usr/bin/clear
+    while [ -z $date ]
+    do
+        userDateSelection
+    done
+    clear
+    userDate=$date
+    rm $dbDir/webhoneypot.db3
+    sqlite3 $dbDir/webhoneypot.db3 "CREATE TABLE "webHoneyPot"("time" TEXT,"headers" TEXT,"sip" TEXT,"dip" TEXT,"method" TEXT,"url" TEXT,"data" TEST,"useragent" TEXT,"version" TEXT,"response_id" TEXT,"signature_id" TEXT,sensorName TEXT)"
+    for sensor in "${probes[@]}"
+    do
+      # Use the specific date from user for .json.
+      for X in $dshieldDirectory/Data/$sensor.$domain/logs/webhoneypot-$userDate.json
+        do
+            echo sensor: $sensor
+            echo "Pulling $X log into Sqlite database --- "           
+            # Correctly we split the function into two commands.  Overwrite temp file each pass for sensor
+            (head -1 $X | jq -r 'keys_unsorted | @csv') | head -1 > $dbDir/webhoneypottemp.csv 
+            # export each record to csv
+            jq -r 'map(tostring) | @csv' < $X >> $dbDir/webhoneypottemp.csv
+            # Let's make a Master table
+            sqlite3 $dbDir/webhoneypot.db3 ".import --csv $dbDir/webhoneypottemp.csv webHoneyPot" > /dev/null 2>&1
+            sqlite3 $dbDir/webhoneypot.db3 "UPDATE webHoneyPot SET sensorName='$sensor' WHERE sensorName IS NULL"  > /dev/null 2>&1
+        done
+    done
+    sqlite3 $dbDir/webhoneypot.db3 "DELETE FROM webHoneyPot WHERE time ='time'"  > /dev/null 2>&1
+    sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN response_id" > /dev/null 2>&1
+    sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN signature_id" > /dev/null 2>&1
+    sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN data" > /dev/null 2>&1
+    date=
+    userDate=
+    clear
+}
+
+allhoneypots2SQL() {
+    rm $dbDir/everywebhoneypot.db3
+    # Let's make a table
+    read -n 1 -s -r -p "Press any key to continue...  "
+    sqlite3 $dbDir/everywebhoneypot.db3 "CREATE TABLE "webHoneyPot"("time" TEXT,"headers" TEXT,"sip" TEXT,"dip" TEXT,"method" TEXT,"url" TEXT,"data" TEST,"useragent" TEXT,"version" TEXT,"response_id" TEXT,"signature_id" TEXT,sensorName TEXT)"
+    for sensor in "${probes[@]}"
+    do
+      for X in $dshieldDirectory/Data/$sensor.nullusspecialis.com/logs/webhoneypot-*.json
+        do
+            echo sensor: $sensor
+            echo "Pulling $X log into Sqlite database --- "           
+            # Correctly we split the function into two commands.  Overwrite temp file each pass for sensor
+            (head -1 $X | jq -r 'keys_unsorted | @csv') | head -1 > $dbDir/everywebhoneypottemp.csv
+            # export each record to csv
+            jq -r 'map(tostring) | @csv' < $X >> $dbDir/everywebhoneypottemp.csv
+            # Let's make a table
+            sqlite3 $dbDir/everywebhoneypot.db3 ".import --csv $dbDir/everywebhoneypottemp.csv webHoneyPot" > /dev/null 2>&1
+            #sqlite3 $dbDir/everywebhoneypot.db3 "ALTER TABLE webHoneyPot ADD COLUMN sensorName TEXT" > /dev/null 2>&1
+            sqlite3 $dbDir/everywebhoneypot.db3 "UPDATE webHoneyPot SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+        done
+    done
+    sqlite3 $dbDir/everywebhoneypot.db3 "DELETE FROM webHoneyPot WHERE time ='time'"  > /dev/null 2>&1
+    sqlite3 $dbDir/everywebhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN response_id" > /dev/null 2>&1
+    sqlite3 $dbDir/everywebhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN signature_id" > /dev/null 2>&1
+    sqlite3 $dbDir/everywebhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN data" > /dev/null 2>&1
+    read -n 1 -s -r -p "Press any key to continue"
+}
+
+firewall2SQL() {
+    rm $dbDir/localDshield.log $dbDir/firewall.db3
+    sqlite3 $dbDir/firewall.db3 "CREATE TABLE "firewallTable"("time" TEXT,"flags" TEXT,"sip" TEXT,"dip" TEXT,"proto" TEXT,"sport" TEXT,"dport" TEXT, sensorName TEXT)"
+    for sensor in "${probes[@]}"
+	do
+        cp $dshieldDirectory/logs/$sensor/localDshield.log $dbDir/.
+        sed -i '/^#/d' $dbDir/localDshield.log
+        cat $dbDir/localDshield.log | jq -r '.logs | map([.time, .flags, .sip, .dip, .proto, .sport, .dport] | join(", ")) | join("\n")' > $dbDir/firewallTemp.csv
+        sqlite3 $dbDir/firewall.db3 ".import --csv $dbDir/firewallTemp.csv firewallTable" > /dev/null 2>&1
+        sqlite3 $dbDir/firewall.db3 "UPDATE firewallTable SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+    done
+    sqlite3 $dbDir/firewall.db3 "UPDATE firewallTable SET time = datetime(time, 'unixepoch', 'localtime')"
+}
+
+everyfirewall2SQL() {
+    rm $dbDir/everylocalDshield.log $dbDir/everyfirewall.db3
+    sqlite3 $dbDir/everyfirewall.db3 "CREATE TABLE "firewallTable"("time" TEXT,"flags" TEXT,"sip" TEXT,"dip" TEXT,"proto" TEXT,"sport" TEXT,"dport" TEXT, sensorName TEXT)"
+    for sensor in "${probes[@]}"
+	do
+        #cp $dshieldDirectory/logs/$sensor/localDshield.log $dbDir/.
+        cat $dshieldDirectory/logs/$sensor/localDshield.log* > $dbDir/everylocalDshield.log
+        sed -i '/^#/d' $dbDir/everylocalDshield.log
+        cat $dbDir/everylocalDshield.log | jq -r '.logs | map([.time, .flags, .sip, .dip, .proto, .sport, .dport] | join(", ")) | join("\n")' > $dbDir/everyfirewallTemp.csv
+        sqlite3 $dbDir/everyfirewall.db3 ".import --csv $dbDir/everyfirewallTemp.csv firewallTable" > /dev/null 2>&1
+        sqlite3 $dbDir/everyfirewall.db3 "UPDATE firewallTable SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+    done
+    sqlite3 $dbDir/everyfirewall.db3 "UPDATE firewallTable SET time = datetime(time, 'unixepoch', 'localtime')"
+}
+
+sensorStatus() {
+    /usr/bin/clear
+    echo "Current Status of DShield Sensors --- " ${probes[@]}
+    for sensor in "${probes[@]}"
+    do
+    echo sensor: $sensor
+    /usr/bin/ssh -i $sshKey $user@$sensor.$domain -p $sshPort 'sudo /srv/dshield/status.sh' | \
+    sed -n -e '/### Are My Reports Received/ { n; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N; N;h; }' -e '$ { g; /./p; }'
+    echo
+    read -n 1 -s -r -p "Press any key to continue"
+    /usr/bin/clear
+    done
+}
+
+extractPackets() {
+    /usr/bin/clear
+    echo "--- Extracting DShield Packet Captures --- " ${probes[@]}
+	for sensor in "${probes[@]}"
+	do
+	    echo "Extracting and Archiving Packet tarballs for" $sensor
+        for tarBall in /data/productionArchive/dshield/$sensor.$domain/packets/*.gz;
+            do 
+               cp $tarBall /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor/ ; 
+			   tar zxfv $tarBall -C /data/dshieldManager/packets/$sensor.$domain/ ; 
+			   rm $tarBall
+            done
+	done
+}
+
+onionPackets() {
+    /usr/bin/clear
+    while [ -z $date ]
+    do
+        userDateSelection
+    done
+    clear
+    userDate=$date
+
+	for sensor in "${probes[@]}"
+    do
+        ssh $onionUser@$onionServer "rm -f /var/incoming/*.pcap"
+        scp $dshieldDirectory/packets/$sensor.$domain/$date-*.pcap $onionUser@$onionServer:/var/incoming/.
+        ssh $onionUser@$onionServer "sudo so-import-pcap /var/incoming/*.pcap"
+    done
+}
+
+remoteCommand() {
+    /usr/bin/clear
+    printf "\n\n\n\n\n\n\n\n"
+    # Prompt the user for command
+    echo "Enter simple commnand.  Remember, you're executing as the dshield user."
+    echo
+    echo "You need to prepend your command with sudo for most administrative functions."
+    echo
+    echo "W A R N I N G !  W A R N I N G !  W A R N I N G !"
+    echo "I'm doing ZERO input validation here.  BE WARNED!"
+    echo
+    read -p "Enter your command: " remoteCommand
+    echo
+    echo $remoteCommand
+    for sensor in "${probes[@]}"
+	do
+    echo "Executing on $sensor"
+    echo
+    /usr/bin/ssh -i $sshKey $user@$sensor.$domain -p $sshPort $remoteCommand
+    echo
+    done
+}
+
+viewTTY () {
+    /usr/bin/clear
+     printf "\n\n\n\n\n\n\n\n"
+    echo "		viewTTY not implemented yet"
+    read -n 1 -s -r -p "Press any key to continue"
+}
+
+extractDownloads () {
+    /usr/bin/clear
+     printf "\n\n\n\n\n\n\n\n"
+    echo "		extractDownloads not implemented yet"
+    read -n 1 -s -r -p "Press any key to continue"
+}
+
+graphHoneypotLogs () {
+    for sensor in "${probes[@]}"
+	do
+		echo $sensor
+        $dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/logs/ ;
+        clear
+	done
+}
+
+graphPcapLogs () {
+    for sensor in "${probes[@]}"
+	do
+        echo $sensor
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/packets/$sensor.$domain ;
+        clear
+	done
+}
+
+graphPacketTarballs () {
+    for sensor in "${probes[@]}"
+	do
+	echo $sensor
+	$dshieldDirectory/bin/fileSizeDistribution.py /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor
+    done
+}
+
+graphDownloads () {
+    for sensor in "${probes[@]}"
+	do
+        echo $sensor
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/downloads/ ;
+        clear
+    done
+}
+
+graphTTY () {
+    for sensor in "${probes[@]}"
+	do
+        echo $sensor
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/tty/ ;
+        clear
+	done
+}
+
+detectLargeFiles () {
+	$dshieldDirectory/bin/fileSizeDistributionSubs.py $dshieldDirectory/Data/ ;
+}

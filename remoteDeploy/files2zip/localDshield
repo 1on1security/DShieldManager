@@ -1,0 +1,16 @@
+# logrotate for local firewall log copy
+
+/logs/localDshield.log
+{
+        rotate 4
+        daily
+        missingok
+        notifempty
+        nocompress
+        maxsize 100M
+        prerotate
+        endscript
+        postrotate
+                touch /logs/localDshield.log
+        endscript
+}

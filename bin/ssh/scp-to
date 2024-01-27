@@ -1,0 +1,3 @@
+#!/bin/sh
+sshKey=/dshieldManager/bin/ssh/dshield-key.pem
+/usr/bin/scp -P 12222 -i $sshKey $2 dshield@$1.nullusspecialis.com:

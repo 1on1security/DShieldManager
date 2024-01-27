@@ -1,0 +1,38 @@
+# individualized data unique to my own honeypots that winds up in a few locations such as logs/db etc.
+*.csv
+*.db
+*.db3
+*.json
+*.pcap
+*.pem
+*.tar.gz
+*.bak
+*localDshield.log
+*.db3-journal
+
+# Test data that's also unique/private
+Data/*
+packets/*
+agents/*
+/bin/test/*
+
+# My local Data store, private.  
+Data/*
+
+testAgent/
+logAgents.config
+packetAgents.config
+
+# The big archives/logs are also unique data.
+archive/logs/*
+archive/packets/*
+
+# My investigation scratch directory, also private snatches of data.  
+investigation/*
+# More personally unique information used to add allow admin entries to iptables on honeypots.
+starlinkDenverIPs
+networkSecurityGroupAddIP.bash
+nsgUpdate.bash
+
+# My excel spreadsheet for tracking honeypot host information.
+hostData.xlsx

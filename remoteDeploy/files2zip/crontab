@@ -1,0 +1,7 @@
+# Hourly execution of  traffic capture
+0 * * * * /root/rootScripts/packetCapture.bash &2>/dev/null
+@reboot sleep 15 /root/rootScripts/packetCapture.bash &2>/dev/null
+
+# 6am gather traffic logs.
+00 06 * * * /root/rootScripts/packagePackets.bash &2>/dev/null
+
