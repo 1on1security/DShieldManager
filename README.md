@@ -46,4 +46,4 @@ For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 
 ## Authors
 
-- [@1on1security](https://1on1security.com){:target="_blank"}
+- [@1on1security](https://1on1security.com)
