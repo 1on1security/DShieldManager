@@ -1,7 +1,7 @@
 
 # SKRULL
 I honestly don't know where the term "skrull" entered my brain.  I don't think the Marvel Cinematic Universe 
-is nearly as responsible as the movie :Krull" back in the day but I digress.
+is nearly as responsible as the movie "Krull" back in the day but I digress.
 
 My "I want informaton about a specific IP address" process cobbles togther output from four sources, all of 
 which require an account and an API key.
