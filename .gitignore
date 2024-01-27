@@ -1,3 +1,6 @@
+# private ssh key
+dshield-key.pem
+
 # individualized data unique to my own honeypots that winds up in a few locations such as logs/db etc.
 *.csv
 *.db
