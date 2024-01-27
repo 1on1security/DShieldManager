@@ -16,9 +16,9 @@ For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 
 ## Acknowledgements
 
- - [Dr. Johannes Ullrich] Dr. Johannes Ullrich is the Dean of Research for SANS Technology Institute, a SANS Faculty Fellow, and founder of the Internet Storm Center [DShield.org] which provides a free analysis and warning service to thousands of Internet users and organizations. https://www.sans.org/profiles/dr-johannes-ullrich/
+ - Dr. Johannes Ullrich: Dr. Johannes Ullrich is the Dean of Research for SANS Technology Institute, a SANS Faculty Fellow, and founder of the Internet Storm Center [DShield.org] which provides a free analysis and warning service to thousands of Internet users and organizations. https://www.sans.org/profiles/dr-johannes-ullrich/
 
- - [Jesse La Grew] Chief Information Security Officer at Madison Area Technical College and my Mentor in the SANS-4499 internship with the SANS Internet Storm Center. https://www.linkedin.com/in/jesselagrew/
+ - Jesse La Grew: Chief Information Security Officer at Madison Area Technical College and my Mentor in the SANS-4499 internship with the SANS Internet Storm Center. https://www.linkedin.com/in/jesselagrew/
 
  Binaries from other projects that live in ./bin:
 
