@@ -17,6 +17,16 @@ For the impatient, consult Getting Started.
 
  - [Jesse La Grew] Chief Information Security Officer at Madison Area Technical College and my Mentor in the SANS-4499 internship with the SANS Internet Storm Center. https://www.linkedin.com/in/jesselagrew/
 
+ Binaries from other projects that live in ./bin:
+
+- ./bin/analyze Copyright 2008-2019 Enclave Forensics, Inc / David Hoelzer
+
+- ./bin/playlog Copyright (C) 2003-2011 Upi Tamminen desaster@dragonlight.fi
+
+- ./bin/vt https://github.com/VirusTotal/vt-cli
+
+- ./bin/sqlitebrowser https://sqlitebrowser.org/
+
 
 ## Documentation
 
