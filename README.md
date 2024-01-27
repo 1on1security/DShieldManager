@@ -47,3 +47,7 @@ For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 ## Authors
 
 - [@1on1security](https://1on1security.com)
+
+## Feedback
+
+If you have any feedback, please reach out to me at dustin at dustindeker.com
