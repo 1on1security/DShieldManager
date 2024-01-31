@@ -141,7 +141,7 @@ extractPackets() {
 	for sensor in "${probes[@]}"
 	do
 	    echo "Extracting and Archiving Packet tarballs for" $sensor
-        for tarBall in /data/productionArchive/dshield/$sensor.$domain/packets/*.gz;
+        for tarBall in $dshieldDirectory/INCOMING/$sensor.$domain/packets/*.gz;
             do 
                cp $tarBall /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor.$domain/ ; 
 			   tar zxfv $tarBall -C /data/dshieldManager/packets/$sensor.$domain/ ; 
