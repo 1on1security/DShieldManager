@@ -42,7 +42,7 @@ honeypot2SQL() {
     for sensor in "${probes[@]}"
     do
       # Use the specific date from user for .json.
-      for X in $dshieldDirectory/Data/$sensor.$domain/logs/webhoneypot-$userDate.json
+      for X in $dshieldDirectory/_liveData/$sensor.$domain/logs/webhoneypot-$userDate.json
         do
             echo sensor: $sensor
             echo "Pulling $X log into Sqlite database --- "           
@@ -67,11 +67,18 @@ honeypot2SQL() {
 allhoneypots2SQL() {
     rm $dbDir/everywebhoneypot.db3
     # Let's make a table
-    read -n 1 -s -r -p "Press any key to continue...  "
+    echo "This will take quite a while.  The database file will be _HUGE_."
+    echo "Countless CPU cycles will be consumed..."
+    echo
+    echo "It will hurt the entire time."
+    echo
+    echo "Press CTRL+C to exit to shell without the pain."
+    echo
+    read -n 1 -s -r -p "Press any key to continue..."
     sqlite3 $dbDir/everywebhoneypot.db3 "CREATE TABLE "webHoneyPot"("time" TEXT,"headers" TEXT,"sip" TEXT,"dip" TEXT,"method" TEXT,"url" TEXT,"data" TEST,"useragent" TEXT,"version" TEXT,"response_id" TEXT,"signature_id" TEXT,sensorName TEXT)"
     for sensor in "${probes[@]}"
     do
-      for X in $dshieldDirectory/Data/$sensor.nullusspecialis.com/logs/webhoneypot-*.json
+      for X in $dshieldDirectory/_liveData/$sensor.nullusspecialis.com/logs/webhoneypot-*.json
         do
             echo sensor: $sensor
             echo "Pulling $X log into Sqlite database --- "           
@@ -141,10 +148,10 @@ extractPackets() {
 	for sensor in "${probes[@]}"
 	do
 	    echo "Extracting and Archiving Packet tarballs for" $sensor
-        for tarBall in $dshieldDirectory/INCOMING/$sensor.$domain/packets/*.gz;
+        for tarBall in $dshieldDirectory/_incoming/$sensor.$domain/packets/*.gz;
             do 
-               cp $tarBall /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor.$domain/ ; 
-			   tar zxfv $tarBall -C /data/dshieldManager/packets/$sensor.$domain/ ; 
+               cp $tarBall /data/productionArchive/dshield/$sensor.$domain/packets/ ; 
+			   tar zxfv $tarBall -C /data/dshieldManager/_packets/$sensor.$domain/ ; 
 			   rm $tarBall
             done
 	done
@@ -269,7 +276,7 @@ graphHoneypotLogs () {
     for sensor in "${probes[@]}"
 	do
 		echo $sensor
-        $dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/logs/ ;
+        $dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/_liveData/$sensor.$domain/logs/ ;
         clear
 	done
 }
@@ -295,7 +302,7 @@ graphDownloads () {
     for sensor in "${probes[@]}"
 	do
         echo $sensor
-		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/downloads/ ;
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/_liveData/$sensor.$domain/downloads/ ;
         clear
     done
 }
@@ -304,11 +311,11 @@ graphTTY () {
     for sensor in "${probes[@]}"
 	do
         echo $sensor
-		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/Data/$sensor.$domain/tty/ ;
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/_liveData/$sensor.$domain/tty/ ;
         clear
 	done
 }
 
 detectLargeFiles () {
-	$dshieldDirectory/bin/fileSizeDistributionSubs.py $dshieldDirectory/Data/ ;
+	$dshieldDirectory/bin/fileSizeDistributionSubs.py $dshieldDirectory/_liveData/ ;
 }

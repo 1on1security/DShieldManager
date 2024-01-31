@@ -1,6 +1,11 @@
 # private ssh key
 dshield-key.pem
 
+# My local data stores, private.  
+_liveData/*
+_packets/*
+_incoming/*
+
 # individualized data unique to my own honeypots that winds up in a few locations such as logs/db etc.
 *.csv
 *.db
@@ -12,32 +17,17 @@ dshield-key.pem
 *.bak
 *localDshield.log
 *.db3-journal
-INCOMING/*
 
-# Test data that's also unique/private
-Data/*
-packets/*
+# Test data that's also unique/private/deprecated
 agents/*
-/bin/test/*
-
-# My local Data store, private.  
-Data/*
-
+bin/test/*
 bin/deprecate/*
-testAgent/
-logAgents.config
-packetAgents.config
-
-# The big archives/logs are also unique data.
-archive/logs/*
-archive/packets/*
+foo*
 
 # My investigation scratch directory, also private snatches of data.  
 investigation/*
+
 # More personally unique information used to add allow admin entries to iptables on honeypots.
 starlinkDenverIPs
 networkSecurityGroupAddIP.bash
 nsgUpdate.bash
-
-# My excel spreadsheet for tracking honeypot host information.
-hostData.xlsx
