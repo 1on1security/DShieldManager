@@ -12,6 +12,7 @@ dshield-key.pem
 *.bak
 *localDshield.log
 *.db3-journal
+INCOMING/*
 
 # Test data that's also unique/private
 Data/*

@@ -11,7 +11,7 @@ The DShieldManager project is intended for use with multiple DShield honeypots t
 
 For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 
-![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/00-banner.png "DShieldManager")
+![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/globalResourceView.png "DShieldManager")
 
 ## Features
 - Collect honeypot, firewall, tty and download logs from DShield honeypots into local storage.
@@ -51,3 +51,5 @@ For the impatient, consult [Getting Started](/docs/GETTING_STARTED.md)
 ## Feedback
 
 If you have any feedback, please reach out to me at dustin at dustindeker.com
+
+![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/00-banner.png "DShieldManager")
