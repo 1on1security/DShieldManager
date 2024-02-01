@@ -61,16 +61,16 @@ utilities() {
   dialog --clear --backtitle "Utilities" \
     --title "Utilities" \
     --menu "Choose an option:" 15 50 5 \
-    1 "Sensors: Flush logs > 48 hours old." \
+    1 "Sensors: Flush Logs 48+ Hours Old." \
     2 "Sensors: View Status of All Sensors" \
-    3 "Execute Remote Command on Sensors" \
+    3 "Sensors: Execute Remote Command" \
     4 "Import/Build the _HUGE_ Database" \
     5 "Open the _HUGE_ Database" \
     b "Back to Main Menu" 2> /tmp/dshieldManager_choice
 
  choice=$(cat /tmp/dshieldManager_choice)
  case $choice in
-    1) flushSensorLogs ;;
+    1) /data/dshieldManager/agents/flushSensors.py ;;
     2) sensorStatus ;;
     3) remoteCommand ;;
     4) time allhoneypots2SQL ;;
