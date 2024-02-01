@@ -16,7 +16,7 @@ notice and license.
 EOF
 }
 
-PACKETPATH=/data/dshieldManager/packets
+PACKETPATH=/data/dshieldManager/_packets
 sensors=$(ls $PACKETPATH)
 bold=$(tput setaf 2)
 normal=$(tput sgr0)
@@ -43,7 +43,6 @@ argument.  All other arguments are optional.
 			specified, quotation marks are optional and the date will be extended
 			to be 00:00:00.
 -h | --help		This help.
-
 Provided courtesy David Hoelzer / Enclave Forensics, Inc.
 EOF
 }

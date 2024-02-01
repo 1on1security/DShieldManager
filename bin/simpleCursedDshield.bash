@@ -70,7 +70,7 @@ utilities() {
 
  choice=$(cat /tmp/dshieldManager_choice)
  case $choice in
-    1) /data/dshieldManager/agents/flushSensors.py ;;
+    1) /data/dshieldManager/bin/flushSensors.py ;;
     2) sensorStatus ;;
     3) remoteCommand ;;
     4) time allhoneypots2SQL ;;

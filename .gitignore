@@ -19,7 +19,7 @@ _incoming/*
 *.db3-journal
 
 # Test data that's also unique/private/deprecated
-agents/*
+agents/deprecate/*
 bin/test/*
 bin/deprecate/*
 foo*
