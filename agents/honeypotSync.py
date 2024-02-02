@@ -32,7 +32,7 @@ def rsync_transfer(hostname):
 
 def main():
     # Read hostnames from file
-    with open('sensors.config', 'r') as file:
+    with open('/data/dshieldManager/agents/sensors.config', 'r') as file:
         hostnames = [line.strip() for line in file.readlines()]
 
     # Use ThreadPoolExecutor for parallel execution

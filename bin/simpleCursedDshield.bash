@@ -15,22 +15,24 @@ main_menu() {
   dialog --keep-tite --clear --backtitle "DShield Manager Main Menu" \
     --title "DShield Manager Main Menu" \
     --menu "Choose an option:" 15 50 7 \
-    1 "Honeypot Log: Import/View by Date" \
-    2 "Packets: Extract Tarballs" \
-    3 "Packets: to Security Onion" \
-    4 "Analyze TTY Logs" \
-    5 "Graphing Menu" \
-    6 "Utilities Menu" \
+    1 "Download Sensor Data" \
+    2 "Honeypot Log: Import/View by Date" \
+    3 "Packets: Extract Tarballs" \
+    4 "Packets: to Security Onion" \
+    5 "Analyze TTY Logs" \
+    6 "Graphing Menu" \
+    7 "Utilities Menu" \
     q "Exit" 2> /tmp/dshieldManager_choice
 
   choice=$(cat /tmp/dshieldManager_choice)
   case $choice in
-    1) honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro & ;;
-    2) extractPackets ;;
-    3) onionPackets ;;
-    4) ttyMenu ;;
-    5) graphFileSizes ;;
-    6) utilities ;;
+    1) /data/dshieldManager/agents/gatherAll.bash ; /data/dshieldManager/sync2_liveData.bash ;;
+    2) honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro & ;;
+    3) extractPackets ;;
+    4) onionPackets ;;
+    5) ttyMenu ;;
+    6) graphFileSizes ;;
+    7) utilities ;;
     q) exit 0 ;;
   esac
 }

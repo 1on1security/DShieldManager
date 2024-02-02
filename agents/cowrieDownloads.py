@@ -4,6 +4,7 @@ import subprocess
 import os
 from concurrent.futures import ThreadPoolExecutor
 
+
 def rsync_transfer(hostname):
     # SSH parameters
     ssh_user = 'dshield'
@@ -32,7 +33,7 @@ def rsync_transfer(hostname):
 
 def main():
     # Read hostnames from file
-    with open('sensors.config', 'r') as file:
+    with open('/data/dshieldManager/agents/sensors.config', 'r') as file:
         hostnames = [line.strip() for line in file.readlines()]
 
     # Use ThreadPoolExecutor for parallel execution
