@@ -8,4 +8,6 @@ sync2liveData.bash then performs an rsync to the $dshieldDirectory/_liveData dir
 
 archive.bash syncronizes our $dshieldDirectory/_liveData back to /data/productionArchives/dshield<br>
 
-The extractPackets function accessed via the main curses menu will extract any unprocessed tarballs into $dshieldDirectory/_packets, backup a copy of the tarball to archive, and delete the file in $dshieldDirectory/_liveData.  This leaves all packets separate from the TTY/Download/Honeypot data in a structure anticipated by the "analyze" script provided by Enclave.
+The extractPackets function accessed via the main curses menu will extract any unprocessed tarballs into $dshieldDirectory/_packets, backup a copy of the tarball to archive, and delete the file in $dshieldDirectory/_liveData.  This leaves all packets separate from the TTY/Download/Honeypot data in a structure anticipated by the "analyze" script provided by Enclave.<p>
+
+The sensors.config file is used by each of the python scripts to identify sensors by hostname.
