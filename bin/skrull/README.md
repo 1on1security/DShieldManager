@@ -7,7 +7,7 @@ Krull is a 1983 science fantasy swashbuckler film directed by Peter Yates and wr
 <a href="https://en.wikipedia.org/wiki/Krull_(film)" target="_blank">https://en.wikipedia.org/wiki/Krull_(film)</a>
 
 My "I want information about a specific IP address" process cobbles togther output from four sources, all of 
-which require an account and an API key.
+which require an account and an API key.  I called it skrull.bash.
 
 - <a href="https://ipinfo.io">ipInfo.io</a> via the ipinfo.bash script
 (Edit to declare YOUR API key.)
