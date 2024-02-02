@@ -270,47 +270,36 @@ viewTTY () {
     case $sensor in
         1)
             sensor=africa24
-            echo "$sensor"
             ;;
         2)
             sensor=australia24
-            echo "$sensor"
             ;;
         3)
             sensor=eastasia24
-            echo "$sensor"
             ;;
         4)
             sensor=eastus24
-            echo "$sensor"
             ;;
         5)
             sensor=europe24
-            echo "$sensor"
             ;;
         6)
             sensor=india24
-            echo "$sensor"
             ;;
         7)
             sensor=israel24
-            echo "$sensor"
             ;;
         8)
             sensor=korea24
-            echo "$sensor"
             ;;
         9)
             sensor=southamerica24
-            echo "$sensor"
             ;;
         10)
             sensor=southeastasia24
-            echo "$sensor"
             ;;
         11)
             sensor=westus24
-            echo "$sensor"
             ;;
         *)
             ;;

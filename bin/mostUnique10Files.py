@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# mostUnique10Files.py
+# For a given path path identifies the ten "most unique" files datestamp, filename, size.
+# This is a BINARY hash comparison for speed and does not replay TTY files prior to compare.
 
 import os
 import sys

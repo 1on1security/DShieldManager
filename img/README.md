@@ -1,2 +1,2 @@
 ## /img
-Images live here.
+Images used for documents live here.
