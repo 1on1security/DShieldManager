@@ -160,80 +160,79 @@ extractPackets() {
 }
 
 onionPackets() {
-sensors=("africa24" "australia24" "eastasia24" "eastus" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24")
+    sensors=("africa24" "australia24" "eastasia24" "eastus" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24")
+    # Launch dialog to select sensor
+    sensor=$(dialog --stdout --title "Select Sensor" --radiolist "Select a sensor:" 0 0 0 \
+        $(for ((i=0; i<${#sensors[@]}; i++)); do
+            echo "$((i+1)) ${sensors[$i]}" off
+        done))
 
-# Launch dialog to select sensor
-sensor=$(dialog --stdout --title "Select Sensor" --radiolist "Select a sensor:" 0 0 0 \
-    $(for ((i=0; i<${#sensors[@]}; i++)); do
-        echo "$((i+1)) ${sensors[$i]}" off
-    done))
+    case $sensor in
+        1)
+            sensor=africa24
+            echo "$sensor"
+            ;;
+        2)
+            sensor=australia24
+            echo "$sensor"
+            ;;
+        3)
+            sensor=eastasia24
+            echo "$sensor"
+            ;;
+        4)
+            sensor=eastus24
+            echo "$sensor"
+            ;;
+        5)
+            sensor=europe24
+            echo "$sensor"
+            ;;
+        6)
+            sensor=india24
+            echo "$sensor"
+            ;;
+        7)
+            sensor=israel24
+            echo "$sensor"
+            ;;
+        8)
+            sensor=korea24
+            echo "$sensor"
+            ;;
+        9)
+            sensor=southamerica24
+            echo "$sensor"
+            ;;
+        10)
+            sensor=southeastasia24
+            echo "$sensor"
+            ;;
+        11)
+            sensor=westus24
+            echo "$sensor"
+            ;;
+        *)
+            ;;
+    esac
 
-case $sensor in
-    1)
-        sensor=africa24
-        echo "$sensor"
-        ;;
-    2)
-        sensor=australia24
-        echo "$sensor"
-        ;;
-    3)
-        sensor=eastasia24
-        echo "$sensor"
-        ;;
-    4)
-        sensor=eastus24
-        echo "$sensor"
-        ;;
-    5)
-        sensor=europe24
-        echo "$sensor"
-        ;;
-    6)
-        sensor=india24
-        echo "$sensor"
-        ;;
-    7)
-        sensor=israel24
-        echo "$sensor"
-        ;;
-    8)
-        sensor=korea24
-        echo "$sensor"
-        ;;
-    9)
-        sensor=southamerica24
-        echo "$sensor"
-        ;;
-    10)
-        sensor=southeastasia24
-        echo "$sensor"
-        ;;
-    11)
-        sensor=westus24
-        echo "$sensor"
-        ;;
-    *)
-        ;;
-esac
+    date=$(dialog --date-format %Y-%m-%d --stdout --title "Select Date" --calendar "Select a date:" 0 0)
+    hour=$(dialog --stdout --title "Select Hour" --inputbox "Enter the hour (0-23):" 0 0)
 
-date=$(dialog --date-format %Y-%m-%d --stdout --title "Select Date" --calendar "Select a date:" 0 0)
-hour=$(dialog --stdout --title "Select Hour" --inputbox "Enter the hour (0-23):" 0 0)
+    #sTime=$(dialog --stdout --title "Select Start Time" --timebox "Select Start Time:" 0 0)
+    #eTime=$(dialog --stdout --title "Select Start Time" --timebox "Select Start Time:" 0 0)
 
-#sTime=$(dialog --stdout --title "Select Start Time" --timebox "Select Start Time:" 0 0)
-#eTime=$(dialog --stdout --title "Select Start Time" --timebox "Select Start Time:" 0 0)
+    clear
+    filename=$date-$hour.pcap
 
-clear
-filename=$date-$hour.pcap
-
-echo
-echo "You selected sensor $sensor"
-echo "You selected date $date and hour $hour"
-echo "Filename: $filename"
-read -n 1 -s -r -p "Press any key to continue"
-ssh $onionUser@$onionServer "rm -f /var/incoming/*.pcap"
-scp $dshieldDirectory/packets/$sensor.nullusspecialis.com/$filename $onionUser@$onionServer:/var/incoming/.
-ssh $onionUser@$onionServer "sudo so-import-pcap /var/incoming/*.pcap"
+    echo
+    echo "You selected sensor $sensor"
+    echo "You selected date $date and hour $hour"
+    echo "Filename: $filename"
+    read -n 1 -s -r -p "Press any key to continue"
+    ssh $onionUser@$onionServer "rm -f /var/incoming/*.pcap"
+    scp $dshieldDirectory/packets/$sensor.nullusspecialis.com/$filename $onionUser@$onionServer:/var/incoming/.
+    ssh $onionUser@$onionServer "sudo so-import-pcap /var/incoming/*.pcap"
 }
 
 remoteCommand() {
@@ -261,8 +260,66 @@ remoteCommand() {
 
 viewTTY () {
     /usr/bin/clear
-     printf "\n\n\n\n\n\n\n\n"
-    echo "		viewTTY not implemented yet"
+    sensors=("africa24" "australia24" "eastasia24" "eastus" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24")
+    # Launch dialog to select sensor
+    sensor=$(dialog --stdout --title "Select Sensor" --radiolist "Select a sensor:" 0 0 0 \
+        $(for ((i=0; i<${#sensors[@]}; i++)); do
+            echo "$((i+1)) ${sensors[$i]}" off
+        done))
+
+    case $sensor in
+        1)
+            sensor=africa24
+            echo "$sensor"
+            ;;
+        2)
+            sensor=australia24
+            echo "$sensor"
+            ;;
+        3)
+            sensor=eastasia24
+            echo "$sensor"
+            ;;
+        4)
+            sensor=eastus24
+            echo "$sensor"
+            ;;
+        5)
+            sensor=europe24
+            echo "$sensor"
+            ;;
+        6)
+            sensor=india24
+            echo "$sensor"
+            ;;
+        7)
+            sensor=israel24
+            echo "$sensor"
+            ;;
+        8)
+            sensor=korea24
+            echo "$sensor"
+            ;;
+        9)
+            sensor=southamerica24
+            echo "$sensor"
+            ;;
+        10)
+            sensor=southeastasia24
+            echo "$sensor"
+            ;;
+        11)
+            sensor=westus24
+            echo "$sensor"
+            ;;
+        *)
+            ;;
+    esac
+    file=$(dialog --stdout --inputbox "Enter the filename" 15 30 '')
+    clear
+    echo "Begin Replay ---"
+    playlog -bc /data/dshieldManager/_liveData/$sensor.$domain/tty/$file
+    echo "End Replay ---"
     read -n 1 -s -r -p "Press any key to continue"
 }
 
@@ -319,4 +376,13 @@ graphTTY () {
 
 detectLargeFiles () {
 	$dshieldDirectory/bin/fileSizeDistributionSubs.py $dshieldDirectory/_liveData/ ;
+}
+
+tenMostUnique () {
+    for sensor in "${probes[@]}"
+	do
+	echo $sensor
+    $dshieldDirectory/bin/mostUnique10Files.py $dshieldDirectory/_liveData/$sensor.$domain/tty
+    done
+    read -n 1 -s -r -p "Press any key to continue"
 }

@@ -18,8 +18,9 @@ main_menu() {
     1 "Honeypot Log: Import/View by Date" \
     2 "Packets: Extract Tarballs" \
     3 "Packets: to Security Onion" \
-    4 "Graphing Menu" \
-    5 "Utilities Menu" \
+    4 "Analyze TTY Logs" \
+    5 "Graphing Menu" \
+    6 "Utilities Menu" \
     q "Exit" 2> /tmp/dshieldManager_choice
 
   choice=$(cat /tmp/dshieldManager_choice)
@@ -27,9 +28,26 @@ main_menu() {
     1) honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro & ;;
     2) extractPackets ;;
     3) onionPackets ;;
-    4) graphFileSizes ;;
-    5) utilities ;;
+    4) ttyMenu ;;
+    5) graphFileSizes ;;
+    6) utilities ;;
     q) exit 0 ;;
+  esac
+}
+
+ttyMenu() {
+  dialog --clear --backtitle "TTY Menu" \
+    --title "TTY Menu" \
+    --menu "Choose an option:" 15 50 5 \
+    1 "10 Most Unique TTY by Sensors" \
+    2 "Replay a TTY Log File" \
+    b "Back to Main Menu" 2> /tmp/dshieldManager_choice
+
+ choice=$(cat /tmp/dshieldManager_choice)
+ case $choice in
+    1) tenMostUnique ;;
+    2) viewTTY ;;
+    b) main_menu ;;
   esac
 }
 
