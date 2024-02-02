@@ -23,7 +23,6 @@ vt init to add your API key.
 (Install via "pip install -U --user shodan", then initialize with "shodan init YOUR_API_KEY".)
 
 Usage:
-skrull.bash $ipAddress $ipAddress $ipAddress
-($1, $2, $3 are captured allowing a total of three IP addresses per query.)
+skrull.bash $ipAddress 
 
 <img src="https://github.com/1on1security/DShieldManager/blob/main/img/skrullReport.png">
