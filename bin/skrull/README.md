@@ -1,8 +1,8 @@
 
 # SKRULL
 I honestly don't know where the term "skrull" entered my brain.  I don't think the Marvel Cinematic Universe 
-is nearly as responsible as the movie "Krull" back in the day but I digress.
-<img src="https://github.com/1on1security/DShieldManager/blob/main/img/krull.png">
+is nearly as responsible as the movie "Krull" back in the day but I digress.<br>
+<img src="https://github.com/1on1security/DShieldManager/blob/main/img/krull.png"  width="225" height="270">
 
 > Krull is a 1983 science fantasy swashbuckler film directed by Peter Yates and written by Stanford Sherman. It follows Prince Colwyn and a fellowship of companions who set out to rescue his bride, Princess Lyssa, from a fortress of alien invaders who have arrived on their home planet.
 <a href="https://en.wikipedia.org/wiki/Krull_(film)" target="_blank">https://en.wikipedia.org/wiki/Krull_(film)</a>
