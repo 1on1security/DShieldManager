@@ -25,11 +25,8 @@ def main():
     username = 'dshield'
     key_file = '/data/dshieldManager/bin/ssh/dshield-key.pem'
     commands = [
-        "find /srv/db/*.json -type f -mtime +1",
-        "find /pcap -type f -mtime +1",
-        "find /srv/cowrie/var/log/cowrie/ -type f -mtime +1",
-        "find /srv/cowrie/var/lib/cowrie/tty -type f -mtime +1",
-        "find /srv/cowrie/var/lib/cowrie/downloads -type f -mtime +1"
+        "sudo find /srv/cowrie/var/lib/cowrie/tty -size 0 -delete",
+        "sudo find /srv/cowrie/var/lib/cowrie/downloads -size 0 -delete"
     ]
 
     with concurrent.futures.ThreadPoolExecutor() as executor:

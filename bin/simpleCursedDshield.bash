@@ -38,9 +38,9 @@ graphFileSizes() {
     --title "Graphing Menu" \
     --menu "Choose an option:" 15 50 5 \
     1 "Detect Large Files (>150MB)" \
-    2 "View Hourly Honeypot Log Sizes BY SENSOR" \
+    2 "View Daily Honeypot Log Sizes BY SENSOR" \
     3 "View Hourly .pcap Sizes BY SENSOR" \
-    4 "View Daily packet Tarball Sizes BY SENSOR" \
+    4 "View Daily .pcap Tarball Sizes BY SENSOR" \
     5 "View Download File Sizes BY SENSOR" \
     6 "View TTY File Sizes BY SENSOR" \
     b "Back to Main Menu" 2> /tmp/dshieldManager_choice
@@ -70,11 +70,11 @@ utilities() {
 
  choice=$(cat /tmp/dshieldManager_choice)
  case $choice in
-    1) /data/dshieldManager/bin/flushSensors.py ;;
+    1) /data/dshieldManager/agents/flushSensors.py ;;
     2) sensorStatus ;;
     3) remoteCommand ;;
     4) time allhoneypots2SQL ;;
-    5) sqlitebrowser $dbDir/sql/everywebhoneypot.db3.sqbpro & ;;
+    5) sqlitebrowser $dbDir/sql/everywebhoneypot.sqbpro & ;;
     b) main_menu ;;
   esac
 }

@@ -155,6 +155,8 @@ extractPackets() {
 			   rm $tarBall
             done
 	done
+    read -n 1 -s -r -p "Press any key to continue"
+    /usr/bin/clear
 }
 
 onionPackets() {
@@ -222,7 +224,6 @@ hour=$(dialog --stdout --title "Select Hour" --inputbox "Enter the hour (0-23):"
 #eTime=$(dialog --stdout --title "Select Start Time" --timebox "Select Start Time:" 0 0)
 
 clear
-#filename=$sensor-$date-$hour.pcap
 filename=$date-$hour.pcap
 
 echo
@@ -275,7 +276,7 @@ extractDownloads () {
 graphHoneypotLogs () {
     for sensor in "${probes[@]}"
 	do
-		echo $sensor
+	echo $sensor
         $dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/_liveData/$sensor.$domain/logs/ ;
         clear
 	done
@@ -285,7 +286,7 @@ graphPcapLogs () {
     for sensor in "${probes[@]}"
 	do
         echo $sensor
-		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/packets/$sensor.$domain ;
+		$dshieldDirectory/bin/fileSizeDistribution.py $dshieldDirectory/_packets/$sensor.$domain ;
         clear
 	done
 }
