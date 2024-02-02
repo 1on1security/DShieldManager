@@ -6,7 +6,7 @@
 Krull is a 1983 science fantasy swashbuckler film directed by Peter Yates and written by Stanford Sherman. It follows Prince Colwyn and a fellowship of companions who set out to rescue his bride, Princess Lyssa, from a fortress of alien invaders who have arrived on their home planet.
 <a href="https://en.wikipedia.org/wiki/Krull_(film)" target="_blank">https://en.wikipedia.org/wiki/Krull_(film)</a>
 
-My "I want informaton about a specific IP address" process cobbles togther output from four sources, all of 
+My "I want information about a specific IP address" process cobbles togther output from four sources, all of 
 which require an account and an API key.
 
 - <a href="https://ipinfo.io">ipInfo.io</a> via the ipinfo.bash script
