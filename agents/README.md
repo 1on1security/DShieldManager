@@ -1,5 +1,5 @@
 # AGENTS
-THis directory contains python scripts to fetch cowrie downloads and tty, honeypot logs, and packets.<br>
+This directory contains python scripts to fetch cowrie downloads and tty, honeypot logs, and packets.<br>
 Additional utility scripts to clear files older than 48 hours from sensors, and to remove zero-byte files also live here.<p>
 
 gatherAll.bash executes each of the python scripts, syncing data over rsync/ssh to the _incoming directory.<br>
