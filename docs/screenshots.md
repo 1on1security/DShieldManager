@@ -16,7 +16,6 @@
 ### Upon completion of import, sqlitebrowser will open a project tied to the database with several canned queries.
 ![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/screenshots/04-sqlitebrowser.png "sqlitebrowser")
 
-![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/screenshots/05-selectSensor.png "Select Sensor")
 ## Import pcap to security onion, select sensor.
 ### When importing a .pcap file for analysis with Security Onion, a sensor must first be selected, then a date.
 ![DShieldManager](https://github.com/1on1security/DShieldManager/blob/main/img/screenshots/05-selectSensor.png "Select Sensor")
