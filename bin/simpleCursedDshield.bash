@@ -14,11 +14,11 @@ displayBanner
 main_menu() {
   dialog --keep-tite --clear --backtitle "DShield Manager Main Menu" \
     --title "DShield Manager Main Menu" \
-    --menu "Choose an option:" 15 50 7 \
-    1 "Download Sensor Data" \
-    2 "Honeypot Log: Import/View by Date" \
-    3 "Packets: Extract Tarballs" \
-    4 "Packets: to Security Onion" \
+    --menu "Choose an option:" 15 60 7 \
+    1 "Download and Sync Fresh Sensor Data" \
+    2 "Honeypot Logs: Import/View by Date" \
+    3 "Packets: Extract/Archive Current Tarballs" \
+    4 "Packets: Import to Security Onion by Date/Hour" \
     5 "Analyze TTY Logs" \
     6 "Graphing Menu" \
     7 "Utilities Menu" \
@@ -57,7 +57,7 @@ graphFileSizes() {
   dialog --clear --backtitle "Graphing Menu" \
     --title "Graphing Menu" \
     --menu "Choose an option:" 15 50 5 \
-    1 "Detect Large Files (>150MB)" \
+    1 "Detect Large Files (> 700 MB)" \
     2 "View Daily Honeypot Log Sizes BY SENSOR" \
     3 "View Hourly .pcap Sizes BY SENSOR" \
     4 "View Daily .pcap Tarball Sizes BY SENSOR" \

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 import subprocess
 
-def get_file_sizes(directory, min_size=600):
+def get_file_sizes(directory, min_size=700):
     file_sizes = defaultdict(list)
 
     for root, dirs, files in os.walk(directory):
@@ -34,7 +34,7 @@ def plot_distribution(file_sizes):
         plt.hist(sizes, bins=15, alpha=0.8, label=directory)
 
         # Calculate y-coordinate for annotation to stack them vertically with space
-        y_annotation = [35 * (i + 1) for i in range(len(largest_files))]  # Adjust the value (35) for desired space
+        y_annotation = [40 * (i + 1) for i in range(len(largest_files))]  # Adjust the value (35) for desired space
 
         # Annotate the largest files with their names and sizes
         for i, (file_path, size) in enumerate(largest_files):
