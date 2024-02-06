@@ -11,95 +11,93 @@ source FUNCTIONS
 # Main script
 displayBanner
 
-main_menu() {
-  dialog --keep-tite --clear --backtitle "DShield Manager Main Menu" \
-    --title "DShield Manager Main Menu" \
-    --menu "Choose an option:" 15 60 7 \
-    1 "Download and Sync Fresh Sensor Data" \
-    2 "Honeypot Logs: Import/View by Date" \
-    3 "Packets: Extract/Archive Current Tarballs" \
-    4 "Packets: Import to Security Onion by Date/Hour" \
-    5 "Analyze TTY Logs" \
-    6 "Graphing Menu" \
-    7 "Utilities Menu" \
-    q "Exit" 2> /tmp/dshieldManager_choice
+mainMenu() {
 
-  choice=$(cat /tmp/dshieldManager_choice)
-  case $choice in
-    1) /data/dshieldManager/agents/gatherAll.bash ; /data/dshieldManager/sync2_liveData.bash ;;
-    2) honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro & ;;
-    3) extractPackets ;;
-    4) onionPackets ;;
-    5) ttyMenu ;;
-    6) graphFileSizes ;;
-    7) utilities ;;
-    q) exit 0 ;;
-  esac
+items=("Download and Sync Fresh Sensor Data" \
+"Honeypot Logs: Import/View By Date" \
+"Packets: Carve Packets for Sensor/Date/Time" \
+"Analyze TTY Logs" "Graphing" "Utilities" "Exit")
+
+while item=$(zenity --title="DShield Manager" --text="DShield Manager" --list  --width=800 --height=600 \
+	--column="Options" "${items[@]}")
+	do
+		case "$item" in
+			"${items[0]}") /data/dshieldManager/agents/gatherAll.bash ; /data/dshieldManager/agents/sync2_liveData.bash ; extractPackets ;;
+			"${items[1]}") honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro & ;;
+			"${items[2]}") carvePackets;;
+			"${items[3]}") ttyMenu;;
+			"${items[4]}") graphFileSizes;;
+			"${items[5]}") utilities;;
+			"${items[6]}") exit ;;
+			*) echo "Sorry, Invalid option." ;;
+		esac
+	done
 }
 
 ttyMenu() {
-  dialog --clear --backtitle "TTY Menu" \
-    --title "TTY Menu" \
-    --menu "Choose an option:" 15 50 5 \
-    1 "10 Most Unique TTY by Sensors" \
-    2 "Replay a TTY Log File" \
-    b "Back to Main Menu" 2> /tmp/dshieldManager_choice
+items=("10 Most Unique TTY by Sensor" \
+"Replay a TTY Log File" \
+"Main Menu")
 
- choice=$(cat /tmp/dshieldManager_choice)
- case $choice in
-    1) tenMostUnique ;;
-    2) viewTTY ;;
-    b) main_menu ;;
-  esac
+while item=$(zenity --title="TTY Menu" --text="TTY Menu" --list  --width=800 --height=600 \
+	--column="Options" "${items[@]}")
+	do
+		case "$item" in
+			"${items[0]}") tenMostUnique ;;
+			"${items[1]}") viewTTY ;;
+			"${items[2]}") break ;;
+		esac
+	done
 }
 
 graphFileSizes() {
-  dialog --clear --backtitle "Graphing Menu" \
-    --title "Graphing Menu" \
-    --menu "Choose an option:" 15 50 5 \
-    1 "Detect Large Files (> 700 MB)" \
-    2 "View Daily Honeypot Log Sizes BY SENSOR" \
-    3 "View Hourly .pcap Sizes BY SENSOR" \
-    4 "View Daily .pcap Tarball Sizes BY SENSOR" \
-    5 "View Download File Sizes BY SENSOR" \
-    6 "View TTY File Sizes BY SENSOR" \
-    b "Back to Main Menu" 2> /tmp/dshieldManager_choice
+items=("Detect Large Files (> 700 MB)" \
+"View Daily Honeypot Log Sizes BY SENSOR" \
+"View Hourly .pcap Sizes BY SENSOR" \
+"View Daily .pcap Tarball Sizes BY SENSOR" \
+"View Download File Sizes BY SENSOR" \
+"View TTY File Sizes BY SENSOR" \
+"Main Menu")
 
-  choice=$(cat /tmp/dshieldManager_choice)
-  case $choice in
-    1) detectLargeFiles ;;
-    2) graphHoneypotLogs ;;
-    3) graphPcapLogs ;;
-    4) graphPacketTarballs ;;
-    5) graphDownloads ;;
-    6) graphTTY ;;
-    b) main_menu ;;
-  esac
+while item=$(zenity --title="Graphing Menu" --text="Graphing Menu" --list  --width=800 --height=600 \
+	--column="Options" "${items[@]}")
+	do
+		case "$item" in
+			"${items[0]}") detectLargeFiles ;;
+			"${items[1]}") graphHoneypotLogs ;;
+			"${items[2]}") graphPcapLogs ;;
+			"${items[3]}") graphPacketTarballs ;;
+			"${items[4]}") graphDownloads ;;
+			"${items[5]}") graphTTY ;;
+			"${items[6]}") break ;;			
+		esac
+	done
 }
 
 utilities() {
-  dialog --clear --backtitle "Utilities" \
-    --title "Utilities" \
-    --menu "Choose an option:" 15 50 5 \
-    1 "Sensors: Flush Logs 48+ Hours Old." \
-    2 "Sensors: View Status of All Sensors" \
-    3 "Sensors: Execute Remote Command" \
-    4 "Import/Build the _HUGE_ Database" \
-    5 "Open the _HUGE_ Database" \
-    b "Back to Main Menu" 2> /tmp/dshieldManager_choice
 
- choice=$(cat /tmp/dshieldManager_choice)
- case $choice in
-    1) /data/dshieldManager/agents/flushSensors.py ;;
-    2) sensorStatus ;;
-    3) remoteCommand ;;
-    4) time allhoneypots2SQL ;;
-    5) sqlitebrowser $dbDir/sql/everywebhoneypot.sqbpro & ;;
-    b) main_menu ;;
-  esac
+items=("Sensors: Flush Logs 48+ Hours Old" \
+"Sensors: View Status of All Sensors" \
+"Sensors: Execute Remote Command" \
+"Import/Build the _HUGE_ Database" \
+"Open the _HUGE_ Database" \
+"Main Menu")
+
+while item=$(zenity --title="Utilities Menu" --text="Utilities Menu" --list  ---width=800 --height=600 \
+	--column="Options" "${items[@]}")
+	do
+		case "$item" in
+			"${items[0]}") /data/dshieldManager/agents/flushSensors.py ;;
+			"${items[1]}") sensorStatus ;;
+			"${items[2]}") remoteCommand ;;
+			"${items[3]}") time allhoneypots2SQL  ;;
+			"${items[4]}") sqlitebrowser $dbDir/sql/everywebhoneypot.sqbpro & ;;
+			"${items[5]}") break ;;	
+		esac
+	done	
 }
 
 # Main loop
 while true; do
-  main_menu
+  mainMenu
 done
