@@ -161,7 +161,8 @@ extractPackets() {
 }
 
 carvePackets() {
-items=("africa24" "australia24" "eastasia24" "eastus24" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24" "Return to Main Menu")
+items=("africa24" "australia24" "eastasia24" "eastus24" "europe24" "india24" "israel24" \
+"korea24" "southamerica24" "southeastasia24" "westus24" "test" "Return to Main Menu")
 
 while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --width=400 --height=400 \
 	--column="Options" "${items[@]}")
@@ -178,7 +179,8 @@ while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --wid
 			"${items[8]}") sensor=southamerica24 ;;
 			"${items[9]}") sensor=southeastasia24 ;;
 			"${items[10]}") sensor=westus24 ;;
-            "${items[11]}") mainMenu
+			"${items[11]}") sensor=westus24 ;;
+            "${items[12]}") mainMenu ;;
 		esac
 
 	
@@ -205,11 +207,12 @@ while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --wid
     echo "Exporting any packets found to $dshieldDirectory/investigation/pcap/$sensor-export.pcap"
     echo
 
-    $dshieldDirectory/bin/analyze $sensor.$domain -s "$sDate $sTime" -e "$eDate $eTime" | tcpdump -n -r - -w $dshieldDirectory/investigation/pcap/$sensor-export.pcap
+    $dshieldDirectory/bin/analyze $sensor.$domain -s "$sDate $sTime" -e "$eDate $eTime" \
+         | tcpdump -n -r - -w $dshieldDirectory/investigation/pcap/$sensor-export.pcap
     read -n 1 -s -r -p "Press any key to continue and launch Wireshark.  CTRL+C to Exit."
     clear
 
-    wireshark $dshieldDirectory/investigation/pcap/$sensor.$domain.export.pcap &
+    wireshark $dshieldDirectory/investigation/pcap/$sensor-export.pcap &
     done 
     #ssh $onionUser@$onionServer "rm -f /var/incoming/*.pcap"
     #scp $dshieldDirectory/_packets/$sensor.nullusspecialis.com/$filename $onionUser@$onionServer:/var/incoming/.

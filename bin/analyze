@@ -1,7 +1,9 @@
 #!/bin/bash
+#!/bin/bash
 
 function copyright {
 cat << EOF
+
 
 Copyright 2008-2019 Enclave Forensics, Inc / David Hoelzer
 
@@ -13,8 +15,11 @@ obvious attribution to the copyright owner(s).
 You may freely redistribute this script provided that you do not remove this copyright
 notice and license.
 
+
+
 EOF
 }
+
 
 PACKETPATH=/data/dshieldManager/_packets
 sensors=$(ls $PACKETPATH)
@@ -25,6 +30,7 @@ END="999999999999999"
 SOPT=0
 EOPT=0
 PARAMETERS=""
+
 
 function usage {
 COMMAND=$(basename "$0")
@@ -43,6 +49,7 @@ argument.  All other arguments are optional.
 			specified, quotation marks are optional and the date will be extended
 			to be 00:00:00.
 -h | --help		This help.
+
 Provided courtesy David Hoelzer / Enclave Forensics, Inc.
 EOF
 }
@@ -97,15 +104,20 @@ if [ ! -d $PACKETPATH/$SENSOR ] ; then
   exit 2
 fi
 
-REGEX='($PACKETPATH/$SENSOR/.*\.pcap\.)'
-#files=$(ls $PACKETPATH/$SENSOR/dailylogs/*/*)
-files=$(ls $PACKETPATH/$SENSOR/*)
-
+files=$(ls $PACKETPATH/$SENSOR/*.pcap)
 toprocess=""
 for name in $files; do
+  #timestamp=$(echo $name | sed -e "s/^.*pcap\.//")
 
-#  timestamp=$(echo $name | sed -e "s/^.*pcap\.//")
-timestamp=$(thisfile=$(echo $name | rev | cut -c8-18 | rev); date -d "$thisfile" +"%s")
+  # Dustin Decker 06 FEB 2024
+  # My packets live in YYYY-MM-DD-HH.pcap format.  This kludge derives the datestamp from the filename
+  # then the hour included in the filename, does a quick combine wizardry to add hours, then convert
+  # to the anticipated epoch format.
+  date=$(thisfile=$(echo $name | rev | cut -c8-18 | rev); date -d "$thisfile")
+  hour=$(thisfile=$(echo $name | rev | cut -c6-7 | rev); date -d "$thisfile" +"%H")
+  combinedTime=$(date --date="$date +$hour hour")
+  timestamp=$(date -d "$combinedTime" +"%s")
+
   if [ $timestamp -ge $START ] && [ $timestamp -le $END ] ; then
     toprocess="$toprocess $name"
   fi
