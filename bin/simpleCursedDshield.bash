@@ -19,7 +19,7 @@ items=("Download and Sync Fresh Sensor Data" \
 "Analyze TTY Logs" "Graphing" "Utilities" "Exit")
 
 while item=$(zenity --title="DShield Manager" --text="DShield Manager" --list  --width=800 --height=600 \
-	--column="Options" "${items[@]}")
+	--column="Menu" "${items[@]}")
 	do
 		case "$item" in
 			"${items[0]}") /data/dshieldManager/agents/gatherAll.bash ; /data/dshieldManager/agents/sync2_liveData.bash ; extractPackets ;;
