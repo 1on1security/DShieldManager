@@ -162,7 +162,7 @@ extractPackets() {
 
 carvePackets() {
 items=("africa24" "australia24" "eastasia24" "eastus24" "europe24" "india24" "israel24" \
-"korea24" "southamerica24" "southeastasia24" "westus24" "test" "Return to Main Menu")
+"korea24" "southamerica24" "southeastasia24" "westus24")
 
 while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --width=400 --height=400 \
 	--column="Options" "${items[@]}")
@@ -180,7 +180,6 @@ while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --wid
 			"${items[9]}") sensor=southeastasia24 ;;
 			"${items[10]}") sensor=westus24 ;;
 			"${items[11]}") sensor=westus24 ;;
-            "${items[12]}") mainMenu ;;
 		esac
 
 	
