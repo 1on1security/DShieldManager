@@ -1,6 +1,6 @@
 # Directory Aliases
 alias dshield="cd $dshieldDirectory"
-alias dshieldmanager="$dshieldDirectory/bin/simpleCursedDshield.bash"
+alias dshieldmanager="$dshieldDirectory/bin/zenityDshield.bash"
 
 alias agents="cd /data/dshieldManager/agents"
 alias packets="cd /data/dshieldManager/_packets"

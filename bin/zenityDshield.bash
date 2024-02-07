@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-# simpleCursedDshield.bash
-# A "cursed" multi-functional BASH script for managing SANS DShield Sensors
+# zenityDshield.bash
+# A zenity multi-functional BASH script for managing SANS DShield Sensors
 # See: https://isc.sans.edu/tools/honeypot/
 
 # Variables live in local "VARS" file
@@ -14,8 +14,8 @@ displayBanner
 mainMenu() {
 
 items=("Download and Sync Fresh Sensor Data" \
-"SQLITE3 Databases: Daily Honeypot/Downloads/TTY/localDshield.log/cowrie)" \
-"Packets: Carve Packets for Sensor by Date/Time" \
+"SQLITE3 Databases (Downloads/TTY/localDshield.log/cowrie)" \
+"Packets: Carve Packets for Sensor/Date/Time" \
 "Analyze TTY Logs" "Graphing" "Utilities" "Exit")
 
 while item=$(zenity --title="DShield Manager" --text="DShield Manager" --list  --width=800 --height=600 --column="Menu" "${items[@]}")
@@ -57,7 +57,7 @@ while item=$(zenity --title="SQLITE3 Databases" --text="SQLITE3 Databases" --lis
 }
 
 ttyMenu() {
-items=("10 Most Unique TTY Logs by Sensor" \
+items=("10 Most Unique TTY by Sensor" \
 "Replay a TTY Log File")
 
 while item=$(zenity --title="TTY Menu" --text="TTY Menu" --list  --width=800 --height=600 \

@@ -241,6 +241,56 @@ remoteCommand() {
     done
 }
 
+downloadsDB () {
+    rm $dbDir/downloads.db3
+    sqlite3 $dbDir/downloads.db3 "CREATE TABLE "downloadFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    for sensor in "${probes[@]}"
+    do
+		downloads=$(find /data/dshieldManager/_liveData/$sensor.$domain/downloads  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed '1 i\time,filename,size')
+		echo "$downloads" | sqlite3 $dbDir/downloads.db3 ".import --csv /dev/stdin downloadFiles" > /dev/null 2>&1
+		sqlite3 $dbDir/downloads.db3 "UPDATE downloadFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+        sqlite3 $dbDir/downloads.db3 "DELETE FROM downloadFiles WHERE time = 'time'" > /dev/null 2>&1
+	done
+}
+
+ttyDB () {
+    rm $dbDir/tty.db3
+    sqlite3 $dbDir/tty.db3 "CREATE TABLE "ttyFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    for sensor in "${probes[@]}"
+    do
+		tty=$(find /data/dshieldManager/_liveData/$sensor.$domain/tty  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed -e "s/ /,/g" | sed '1 i\time,filename,size')
+		echo "$tty" | sqlite3 $dbDir/tty.db3 ".import --csv /dev/stdin ttyFiles" > /dev/null 2>&1
+		sqlite3 $dbDir/tty.db3 "UPDATE ttyFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+        sqlite3 $dbDir/tty.db3 "DELETE FROM ttyFiles WHERE time = 'time'" > /dev/null 2>&1
+	done
+}
+
+localDshieldDB () {
+    rm $dbDir/localDshield.db3
+    sqlite3 $dbDir/localDshield.db3 "CREATE TABLE "localDshield"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+
+    for sensor in "${probes[@]}"
+    do
+		localDshield=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/localDshield.log*  -printf "%T+ %p %kKb\n" | sort | sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
+		echo "$localDshield" | sqlite3 $dbDir/localDshield.db3 ".import --csv /dev/stdin localDshield" > /dev/null 2>&1
+		sqlite3 $dbDir/localDshield.db3 "UPDATE localDshield SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+		sqlite3 $dbDir/localDshield.db3 "DELETE FROM localDshield WHERE time = 'time'" > /dev/null 2>&1
+	done
+}
+
+cowrieDB () {
+    rm $dbDir/cowrie.db3
+    sqlite3 $dbDir/cowrie.db3 "CREATE TABLE "cowrie"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+
+    for sensor in "${probes[@]}"
+    do
+		cowrietime=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/cowrie.json*  -printf "%T+ %p %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
+		echo "$cowrietime" | sqlite3 $dbDir/cowrie.db3 ".import --csv /dev/stdin cowrie" > /dev/null 2>&1
+		sqlite3 $dbDir/cowrie.db3 "UPDATE cowrie SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+		sqlite3 $dbDir/cowrie.db3 "DELETE FROM cowrie WHERE time = 'time'" > /dev/null 2>&1
+	done
+}
+
 viewTTY () {
     /usr/bin/clear
     sensors=("africa24" "australia24" "eastasia24" "eastus" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24")
