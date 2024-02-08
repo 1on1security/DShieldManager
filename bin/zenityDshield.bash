@@ -110,7 +110,7 @@ utilities() {
 items=("Sensors: Flush Logs 48+ Hours Old" \
 "Sensors: View Status of All Sensors" \
 "Sensors: Execute Remote Command" \
-"Import/Build the _HUGE_ Database - WARNING!  This will chew up CPU and HURT for HOURS!" \
+"Import/Build the All Honeypot Logs Database - WARNING! Long painful process!" \
 "Open the _HUGE_ Database" \
 "" \
 "Main Menu")

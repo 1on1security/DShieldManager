@@ -8,5 +8,5 @@ alias incoming="cd /data/dshieldManager/_incoming"
 alias liveData="cd /data/dshieldManager/_liveData"
 alias dshieldArchive="cd /data/productionArchive/dshield"
 
-export PATH="/data/dshieldManager/bin/:/data/dshieldManager/bin/ssh/:$PATH"
+export PATH="/data/dshieldManager/bin:/data/dshieldManager/bin/ssh/:$PATH"
 export TZ=UTC
