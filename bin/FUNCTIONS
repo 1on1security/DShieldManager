@@ -106,7 +106,7 @@ firewall2SQL() {
     sqlite3 $dbDir/firewall.db3 "CREATE TABLE "firewallTable"("time" TEXT,"flags" TEXT,"sip" TEXT,"dip" TEXT,"proto" TEXT,"sport" TEXT,"dport" TEXT, sensorName TEXT)"
     for sensor in "${probes[@]}"
 	do
-        cp $dshieldDirectory/logs/$sensor/localDshield.log $dbDir/.
+        cp $dshieldDirectory/_liveData/logs/$sensor/localDshield.log $dbDir/.
         sed -i '/^#/d' $dbDir/localDshield.log
         cat $dbDir/localDshield.log | jq -r '.logs | map([.time, .flags, .sip, .dip, .proto, .sport, .dport] | join(", ")) | join("\n")' > $dbDir/firewallTemp.csv
         sqlite3 $dbDir/firewall.db3 ".import --csv $dbDir/firewallTemp.csv firewallTable" > /dev/null 2>&1
@@ -343,13 +343,7 @@ viewTTY () {
     playlog -bc /data/dshieldManager/_liveData/$sensor.$domain/tty/$file
     echo "End Replay ---"
     read -n 1 -s -r -p "Press any key to continue"
-}
-
-extractDownloads () {
-    /usr/bin/clear
-     printf "\n\n\n\n\n\n\n\n"
-    echo "		extractDownloads not implemented yet"
-    read -n 1 -s -r -p "Press any key to continue"
+    clear
 }
 
 graphHoneypotLogs () {
@@ -373,8 +367,9 @@ graphPcapLogs () {
 graphPacketTarballs () {
     for sensor in "${probes[@]}"
 	do
-	echo $sensor
-	$dshieldDirectory/bin/fileSizeDistribution.py /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor
+	    echo $sensor
+	    $dshieldDirectory/bin/fileSizeDistribution.py /data/productionArchive/dshield/previouslyAnalyzedPackets/$sensor
+        clear
     done
 }
 
@@ -407,4 +402,5 @@ tenMostUnique () {
     $dshieldDirectory/bin/mostUnique10Files.py $dshieldDirectory/_liveData/$sensor.$domain/tty
     done
     read -n 1 -s -r -p "Press any key to continue"
+    clear
 }
