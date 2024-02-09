@@ -181,19 +181,19 @@ while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --wid
 			"${items[10]}") sensor=westus24 ;;
 			"${items[11]}") sensor=westus24 ;;
 		esac
-
 	
 	# gather start date, start time, end date and end time to pass to analyze packet gatherer.
 	sDate="$(zenity --width=800 --height=600 --calendar --date-format %m/%d/%Y --title="Select Start Date" \
     --text="Select Start Date" --day=15 --month=2 --year=2024)"
 
-	sTime="$(zenity --forms --title="Enter Start Time" --text="Enter Start Time" --separator=":" --add-entry="Hour" --add-entry="Minutes" --add-entry="Seconds")"
+	sTime="$(zenity --forms --title="Enter Start Time" --text="Enter Start Time" --separator=":" \
+    --add-entry="Hour" --add-entry="Minutes" --add-entry="Seconds")"
 
 	eDate="$(zenity --width=800 --height=600 --calendar --date-format %m/%d/%Y --title="Select End Date" \
     --text="Select End Date" --day=15 --month=2 --year=2024)"
 
-	eTime="$(zenity --forms --title="Enter End Time" --text="Enter End Time" --separator=":" --add-entry="Hour" --add-entry="Minutes" --add-entry="Seconds")"
-
+	eTime="$(zenity --forms --title="Enter End Time" --text="Enter End Time" --separator=":" --add-entry="Hour" \
+    --add-entry="Minutes" --add-entry="Seconds")"
     clear
     echo
     echo
@@ -203,19 +203,15 @@ while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --wid
     echo
     read -n 1 -s -r -p "Press any key to continue"
     echo
-    echo "Exporting any packets found to $dshieldDirectory/investigation/pcap/$sensor-export.pcap"
+    echo "Exporting any matching packets found to $dshieldDirectory/investigation/pcap/$sensor-export.pcap"
     echo
-
     $dshieldDirectory/bin/analyze $sensor.$domain -s "$sDate $sTime" -e "$eDate $eTime" \
          | tcpdump -n -r - -w $dshieldDirectory/investigation/pcap/$sensor-export.pcap
+    
     read -n 1 -s -r -p "Press any key to continue and launch Wireshark.  CTRL+C to Exit."
-    clear
-
     wireshark $dshieldDirectory/investigation/pcap/$sensor-export.pcap &
-    done 
-    #ssh $onionUser@$onionServer "rm -f /var/incoming/*.pcap"
-    #scp $dshieldDirectory/_packets/$sensor.nullusspecialis.com/$filename $onionUser@$onionServer:/var/incoming/.
-    #ssh $onionUser@$onionServer "sudo so-import-pcap /var/incoming/*.pcap"
+    clear
+    done
 }
 
 remoteCommand() {
@@ -241,109 +237,97 @@ remoteCommand() {
     done
 }
 
-downloadsDB () {
-    rm $dbDir/downloads.db3
-    sqlite3 $dbDir/downloads.db3 "CREATE TABLE "downloadFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
-    for sensor in "${probes[@]}"
-    do
-		downloads=$(find /data/dshieldManager/_liveData/$sensor.$domain/downloads  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed '1 i\time,filename,size')
-		echo "$downloads" | sqlite3 $dbDir/downloads.db3 ".import --csv /dev/stdin downloadFiles" > /dev/null 2>&1
-		sqlite3 $dbDir/downloads.db3 "UPDATE downloadFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
-        sqlite3 $dbDir/downloads.db3 "DELETE FROM downloadFiles WHERE time = 'time'" > /dev/null 2>&1
-	done
-}
-
-ttyDB () {
-    rm $dbDir/tty.db3
-    sqlite3 $dbDir/tty.db3 "CREATE TABLE "ttyFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
-    for sensor in "${probes[@]}"
-    do
-		tty=$(find /data/dshieldManager/_liveData/$sensor.$domain/tty  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed -e "s/ /,/g" | sed '1 i\time,filename,size')
-		echo "$tty" | sqlite3 $dbDir/tty.db3 ".import --csv /dev/stdin ttyFiles" > /dev/null 2>&1
-		sqlite3 $dbDir/tty.db3 "UPDATE ttyFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
-        sqlite3 $dbDir/tty.db3 "DELETE FROM ttyFiles WHERE time = 'time'" > /dev/null 2>&1
-	done
-}
-
-localDshieldDB () {
-    rm $dbDir/localDshield.db3
-    sqlite3 $dbDir/localDshield.db3 "CREATE TABLE "localDshield"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+metadataDB() {
+    rm $dbDir/metadataDB.db3
+    sqlite3 $dbDir/metadataDB.db3 "CREATE TABLE "downloadFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    sqlite3 $dbDir/metadataDB.db3 "CREATE TABLE "ttyFiles"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    sqlite3 $dbDir/metadataDB.db3 "CREATE TABLE "localDshield"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    sqlite3 $dbDir/metadataDB.db3 "CREATE TABLE "cowrie"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
+    sqlite3 $dbDir/metadataDB.db3 "CREATE TABLE "webhoneypot"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
 
     for sensor in "${probes[@]}"
     do
-		localDshield=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/localDshield.log*  -printf "%T+ %p %kKb\n" | sort | sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
-		echo "$localDshield" | sqlite3 $dbDir/localDshield.db3 ".import --csv /dev/stdin localDshield" > /dev/null 2>&1
-		sqlite3 $dbDir/localDshield.db3 "UPDATE localDshield SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
-		sqlite3 $dbDir/localDshield.db3 "DELETE FROM localDshield WHERE time = 'time'" > /dev/null 2>&1
-	done
+        downloads=$(find /data/dshieldManager/_liveData/$sensor.$domain/downloads  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/T/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed '1 i\time,filename,size')
+        tty=$(find /data/dshieldManager/_liveData/$sensor.$domain/tty  -printf "%T+ %P %kKb\n" | sort |  sed 's/+/T/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed -e "s/ /,/g" | sed '1 i\time,filename,size')
+        localDshield=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/localDshield.log*  -printf "%T+ %p %kKb\n" | sort | sed 's/+/T/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
+        cowrie=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/cowrie.json*  -printf "%T+ %p %kKb\n" | sort |  sed 's/+/T/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
+        webhoneypot=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/webhoneypot*.json*  -printf "%T+ %p %kKb\n" | sort |  sed 's/+/T/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
+
+		echo "$downloads" | sqlite3 $dbDir/metadataDB.db3 ".import --csv /dev/stdin downloadFiles" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "UPDATE downloadFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+        sqlite3 $dbDir/metadataDB.db3 "DELETE FROM downloadFiles WHERE time = 'time'" > /dev/null 2>&1
+	
+        echo "$tty" | sqlite3 $dbDir/metadataDB.db3 ".import --csv /dev/stdin ttyFiles" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "UPDATE ttyFiles SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+        sqlite3 $dbDir/metadataDB.db3 "DELETE FROM ttyFiles WHERE time = 'time'" > /dev/null 2>&1
+
+        echo "$localDshield" | sqlite3 $dbDir/metadataDB.db3 ".import --csv /dev/stdin localDshield" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "UPDATE localDshield SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "DELETE FROM localDshield WHERE time = 'time'" > /dev/null 2>&1
+
+        echo "$cowrie" | sqlite3 $dbDir/metadataDB.db3 ".import --csv /dev/stdin cowrie" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "UPDATE cowrie SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "DELETE FROM cowrie WHERE time = 'time'" > /dev/null 2>&1
+
+        echo "$webhoneypot" | sqlite3 $dbDir/metadataDB.db3 ".import --csv /dev/stdin webhoneypot" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "UPDATE webhoneypot SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
+		sqlite3 $dbDir/metadataDB.db3 "DELETE FROM webhoneypot WHERE time = 'time'" > /dev/null 2>&1
+    done
+    
 }
 
-cowrieDB () {
-    rm $dbDir/cowrie.db3
-    sqlite3 $dbDir/cowrie.db3 "CREATE TABLE "cowrie"("time" TEXT,"filename" TEXT,"size" TEXT,"sensorName" TEXT)"
-
-    for sensor in "${probes[@]}"
-    do
-		cowrietime=$(find /data/dshieldManager/_liveData/$sensor.$domain/logs/cowrie.json*  -printf "%T+ %p %kKb\n" | sort |  sed 's/+/:/' | sed 's/\.[0-9]*\([^ ]*\)/\1/g' | sed '$d' | sed "s/ /,/g" | sed 's#/data/dshieldManager/_liveData/[a-zA-Z0-9.-]*/logs/##' | sed '1 i\time,filename,size')
-		echo "$cowrietime" | sqlite3 $dbDir/cowrie.db3 ".import --csv /dev/stdin cowrie" > /dev/null 2>&1
-		sqlite3 $dbDir/cowrie.db3 "UPDATE cowrie SET sensorName='$sensor' WHERE sensorName IS NULL" > /dev/null 2>&1
-		sqlite3 $dbDir/cowrie.db3 "DELETE FROM cowrie WHERE time = 'time'" > /dev/null 2>&1
-	done
-}
-
-viewTTY () {
-    /usr/bin/clear
-    sensors=("africa24" "australia24" "eastasia24" "eastus" "europe24" "india24" "israel24" "korea24" "southamerica24" "southeastasia24" "westus24")
-    # Launch dialog to select sensor
-    sensor=$(dialog --stdout --title "Select Sensor" --radiolist "Select a sensor:" 0 0 0 \
-        $(for ((i=0; i<${#sensors[@]}; i++)); do
-            echo "$((i+1)) ${sensors[$i]}" off
-        done))
-
-    case $sensor in
-        1)
-            sensor=africa24
-            ;;
-        2)
-            sensor=australia24
-            ;;
-        3)
-            sensor=eastasia24
-            ;;
-        4)
-            sensor=eastus24
-            ;;
-        5)
-            sensor=europe24
-            ;;
-        6)
-            sensor=india24
-            ;;
-        7)
-            sensor=israel24
-            ;;
-        8)
-            sensor=korea24
-            ;;
-        9)
-            sensor=southamerica24
-            ;;
-        10)
-            sensor=southeastasia24
-            ;;
-        11)
-            sensor=westus24
-            ;;
-        *)
-            ;;
-    esac
-    file=$(dialog --stdout --inputbox "Enter the filename" 15 30 '')
+tenMostUniqueTTY () {
     clear
-    echo "Begin Replay ---"
-    playlog -bc /data/dshieldManager/_liveData/$sensor.$domain/tty/$file
-    echo "End Replay ---"
+    echo
+    echo
+    echo
+    echo "Be sure to remember to copy any interesting filename into your buffer to replay."
     read -n 1 -s -r -p "Press any key to continue"
     clear
+    for sensor in "${probes[@]}"
+	do
+	echo $sensor
+    $dshieldDirectory/bin/mostUnique10Files.py $dshieldDirectory/_liveData/$sensor.$domain/tty
+    done
+    read -n 1 -s -r -p "Press any key to continue"
+    clear
+}
+
+replayTTYfile() {
+items=("africa24" "australia24" "eastasia24" "eastus24" "europe24" "india24" "israel24" \
+"korea24" "southamerica24" "southeastasia24" "westus24")
+
+while item=$(zenity --title="Select Sensor" --text="Select Sensor" --list  --width=400 --height=400 \
+	--column="Options" "${items[@]}")
+	do
+		case "$item" in
+			"${items[0]}") sensor=africa24 ;;
+			"${items[1]}") sensor=australia24 ;;
+			"${items[2]}") sensor=eastasia24 ;;
+			"${items[3]}") sensor=eastus24 ;;
+			"${items[4]}") sensor=europe24 ;;
+			"${items[5]}") sensor=india24 ;;
+			"${items[6]}") sensor=israel24 ;;
+			"${items[7]}") sensor=korea24 ;;
+			"${items[8]}") sensor=southamerica24 ;;
+			"${items[9]}") sensor=southeastasia24 ;;
+			"${items[10]}") sensor=westus24 ;;
+			"${items[11]}") sensor=westus24 ;;
+		esac
+        while file=$(zenity --entry \
+       --width 500 \
+       --title "Enter TTY Filename" \
+       --text "Enter TTY Filename")
+            do
+            clear
+            echo "Begin Replay Marker ---"
+            playlog -bc /data/dshieldManager/_liveData/$sensor.$domain/tty/$file
+            echo "End Replay Marker ---"
+            read -n 1 -s -r -p "Press any key to continue and reset terminal"
+            reset
+            clear
+    done
+done
 }
 
 graphHoneypotLogs () {
@@ -393,14 +377,4 @@ graphTTY () {
 
 detectLargeFiles () {
 	$dshieldDirectory/bin/fileSizeDistributionSubs.py $dshieldDirectory/_liveData/ ;
-}
-
-tenMostUnique () {
-    for sensor in "${probes[@]}"
-	do
-	echo $sensor
-    $dshieldDirectory/bin/mostUnique10Files.py $dshieldDirectory/_liveData/$sensor.$domain/tty
-    done
-    read -n 1 -s -r -p "Press any key to continue"
-    clear
 }

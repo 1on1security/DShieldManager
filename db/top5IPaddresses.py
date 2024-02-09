@@ -55,10 +55,12 @@ num_per_column = (num_sensors + 2) // 3  # Ceiling division to ensure all column
 columns = [results[i:i + num_per_column] for i in range(0, num_sensors, num_per_column)]
 
 # Create HTML table with alternating row colors for each sensor
-html_table = "<table border='1' style='font-family: Verdana;'>"
+html_table = "<!DOCTYPE html><html><head><title>Webhoneypot.json Top 5 Source IP Addresses</title></head><body>"
+html_table += "<h1 style='text-align: left; font-family: Verdana;'>Webhoneypot.json Top 5 Source IP Addresses</h1>"
+html_table += "<table border='1' style='font-family: Verdana; border-collapse: collapse;'>"
 
 sensor_colors = {}  # Dictionary to store colors for each sensor
-alternate_colors = ['#0066cc', '#809fff']  # Alternating colors
+alternate_colors = ['#5c85d6', '#9999ff']  # Alternating colors
 color_index = 0  # Index to alternate colors
 
 # Add the rows to the corresponding sensor in the sensor_rows dictionary
@@ -80,7 +82,7 @@ for column in columns:
         sensor_rows[sensor].append(result)
 
 # Calculate the number of sensors per column
-sensors_per_column = 3
+sensors_per_column = 4
 
 # Create the HTML table
 for i in range(0, len(sensor_rows), sensors_per_column):
@@ -89,8 +91,8 @@ for i in range(0, len(sensor_rows), sensors_per_column):
         if i + j < len(sensor_rows):
             sensor = list(sensor_rows.keys())[i + j]
             sensor_color = sensor_colors.get(sensor, '')  # Get color for the sensor
-            html_table += "<td style='vertical-align: top; background-color: {}; font-family: Verdana; padding: 10px; text-align: left;'>".format(sensor_color)
-            html_table += "<table border='1' style='font-family: Verdana;'>"
+            html_table += "<td style='vertical-align: top; background-color: {}; font-family: Verdana; text-align: left; padding: 0;'>".format(sensor_color)
+            html_table += "<table border='1' style='font-family: Verdana; border-collapse: collapse; padding: 0;'>"
             html_table += "<tr><th style='font-family: Verdana;'>Sensor</th><th style='font-family: Verdana;'>Top Source IP</th><th style='font-family: Verdana;'>Count</th></tr>"
             for result in sensor_rows[sensor]:
                 sensor_name = result[0]  # Extract sensor name from the result
@@ -98,21 +100,24 @@ for i in range(0, len(sensor_rows), sensors_per_column):
                 count = result[2]  # Extract count from the result
                 # Create URL with IP address as POST data and open in new window
                 url = "http://mercury.1on1.lan/skrull.php"
-                html_table += "<tr style='background-color: {}; font-family: Verdana;'>".format(sensor_color)
-                html_table += "<td style='font-family: Verdana;'>{}</td>".format(sensor_name)
+                html_table += "<tr style='background-color: {}; font-family: Verdana; padding: 0;'>".format(sensor_color)
+                html_table += "<td style='font-family: Verdana; padding: 0;'>{}</td>".format(sensor_name)
                 # Link IP address to URL with POST data and open in new window
-                html_table += "<td style='font-family: Verdana;'><form action='{}' method='post' target='_blank' rel='noopener noreferrer'><input type='hidden' name='ip_address' value='{}'><button type='submit'>{}</button></form></td>".format(url, ip_address, ip_address)
-                html_table += "<td style='font-family: Verdana;'>{}</td>".format(count)
+                html_table += "<td style='font-family: Verdana; text-align: center; vertical-align: middle; padding: 0;'><form action='{}' method='post' target='_blank' rel='noopener noreferrer'><input type='hidden' name='ip_address' value='{}'><button type='submit'>{}</button></form></td>".format(url, ip_address, ip_address)
+                html_table += "<td style='font-family: Verdana; text-align: center; padding: 0;'>{}</td>".format(count)
             html_table += "</table>"
             html_table += "</td>"
         else:
-            html_table += "<td></td>"
+            if j == sensors_per_column - 1:  # Check if it's the last cell in the last row
+                html_table += "<td><img src='newLogo.png' alt='New Logo' width='125' height='125' align=right></td>"
+            else:
+                html_table += "<td></td>"
     html_table += "</tr>"
 
-html_table += "</table>"
+
 
 # Save the HTML table to a file
-file_path = "/var/www/html/top_ips_table.html"
+file_path = "/var/www/html/top5IPaddresses.html"
 with open(file_path, "w") as file:
     file.write(html_table)
 

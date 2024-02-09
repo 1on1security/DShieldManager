@@ -25,8 +25,8 @@ def main():
     username = 'dshield'
     key_file = '/data/dshieldManager/bin/ssh/dshield-key.pem'
     commands = [
-        "sudo find /srv/db/*.json -type f -mmin +120 -delete",
         "sudo find /pcap/ -type f -mmin +60 -delete",
+        "sudo find /srv/db/*.json -type f -mmin +120 -delete",
         "sudo find /srv/cowrie/var/log/cowrie/ -type f -mmin +120 -delete",
         "sudo find /srv/cowrie/var/lib/cowrie/tty/ -type f -mmin +120 -delete",
         "sudo find /srv/cowrie/var/lib/cowrie/downloads/ -type f -mmin +120 -delete"

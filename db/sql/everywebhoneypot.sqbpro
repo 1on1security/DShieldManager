@@ -38,26 +38,26 @@ FROM (
   FROM SensorSIPCounts
 ) ranked
 WHERE row_num &lt;= 3;</sql><sql name="Top 5 URLs by Sensor">WITH SensorURLCounts AS (
-  SELECT sensorName, url, COUNT(url) AS url_count
+  SELECT sensorName, url, sip, COUNT(url) AS url_count
   FROM webHoneyPot
   GROUP BY sensorName, url
   ORDER BY sensorName, url_count DESC
 )
-SELECT sensorName AS Sensor, url AS &quot;Top URL&quot;, url_count AS Count
+SELECT sensorName AS Sensor, url AS &quot;Top URL&quot;, sip AS &quot;Source IP&quot;, url_count AS Count
 FROM (
-  SELECT sensorName, url, url_count,
+  SELECT sensorName, url, sip, url_count,
          ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY url_count DESC) AS row_num
   FROM SensorURLCounts
 ) ranked
 WHERE row_num &lt;= 5;</sql><sql name="Bottom 3 URLs by Sensor">WITH SensorURLCounts AS (
-  SELECT sensorName, url, COUNT(url) AS url_count
+  SELECT sensorName, url, sip, COUNT(url) AS url_count
   FROM webHoneyPot
   GROUP BY sensorName, url
   ORDER BY sensorName, url_count ASC
 )
-SELECT sensorName AS Sensor, url AS &quot;Bottom URL&quot;, url_count AS Count
+SELECT sensorName AS Sensor, url AS &quot;Bottom URL&quot;, sip AS &quot;Source IP&quot;, url_count AS Count
 FROM (
-  SELECT sensorName, url, url_count,
+  SELECT sensorName, url, sip, url_count,
          ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY url_count ASC) AS row_num
   FROM SensorURLCounts
 ) ranked
@@ -77,4 +77,4 @@ WHERE
 LIKE '%/oauth%'
 ORDER BY
 	sip
-</sql><current_tab id="2"/></tab_sql></sqlb_project>
+</sql><current_tab id="3"/></tab_sql></sqlb_project>
