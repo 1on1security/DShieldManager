@@ -53,8 +53,8 @@ items=("Honeypot Logs: Import/View By Date" \
 while item=$(zenity --title="SQLITE3 Databases" --text="SQLITE3 Databases" --list  --width=800 --height=600 --column="databases" "${items[@]}")
 	do
 		case "$item" in
-			"${items[0]}") honeypot2SQL ; $dbDir/topIPaddresses.py ; clear ; firefox http://mercury.1on1.lan/top_ips_table.html & clear ;;
-			"${items[2]}") metadataDB ; sqlitebrowser $dbDir/sql/metadataDB.sqbpro & ;;
+			"${items[0]}") honeypot2SQL ; sqlitebrowser $dbDir/sql/webhoneypot.sqbpro ;;
+			"${items[2]}") metadataDB ; sqlitebrowser $dbDir/sql/metadataDB.sqbpro ;;
 		esac
 	done
 }

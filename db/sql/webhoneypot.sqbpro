@@ -64,11 +64,11 @@ FROM (
   FROM SensorURLCounts
 ) ranked
 WHERE row_num &lt;= 3;</sql><sql name="Source IP">SELECT DISTINCT
-	datetime(time) AS Timestamp, sensorName, sip, url, headers, useragent, version
+	datetime(time) AS Timestamp, sensorName, sip, url, headers, useragent, method, version
 FROM
 	webHoneyPot
 WHERE
-	sip = '20.3.243.42'
+	sip = '162.216.150.198'
 ORDER BY
 	Timestamp</sql><sql name="URL">SELECT 
 	datetime(time) AS Timestamp, sensorName, sip, dip, url, headers, useragent, version

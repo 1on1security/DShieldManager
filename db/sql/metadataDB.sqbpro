@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/data/dshieldManager/db/metadataDB.db3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="559"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,6:maincowrie"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="cowrie" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="4" mode="0"/></sort><column_widths><column index="1" value="149"/><column index="2" value="160"/><column index="3" value="66"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes><y_axis name="" line_style="0" point_shape="0" colour="#000000" active="0"/><y_axis name="Row #" line_style="1" point_shape="4" colour="#ffd320" active="0"/><y2_axis name="" line_style="0" point_shape="0" colour="#000000" active="0"/><y2_axis name="Row #" line_style="1" point_shape="4" colour="#004586" active="0"/><y2_axis name="_rowid_" line_style="1" point_shape="4" colour="#ff420e" active="0"/></plot_y_axes><global_filter/></table><table schema="main" name="downloadFiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="300"/><column index="3" value="66"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="localDshield" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="181"/><column index="3" value="74"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ttyFiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="300"/><column index="3" value="49"/><column index="4" value="95"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Downloads by Size">SELECT 
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/data/dshieldManager/db/metadataDB.db3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="983"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,6:maincowrie"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="cowrie" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="4" mode="0"/></sort><column_widths><column index="1" value="149"/><column index="2" value="160"/><column index="3" value="66"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes><y_axis name="" line_style="0" point_shape="0" colour="#000000" active="0"/><y_axis name="Row #" line_style="1" point_shape="4" colour="#ffd320" active="0"/><y2_axis name="" line_style="0" point_shape="0" colour="#000000" active="0"/><y2_axis name="Row #" line_style="1" point_shape="4" colour="#004586" active="0"/><y2_axis name="_rowid_" line_style="1" point_shape="4" colour="#ff420e" active="0"/></plot_y_axes><global_filter/></table><table schema="main" name="downloadFiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="300"/><column index="3" value="66"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="localDshield" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="181"/><column index="3" value="74"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ttyFiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="146"/><column index="2" value="300"/><column index="3" value="49"/><column index="4" value="95"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="webhoneypot" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="149"/><column index="2" value="207"/><column index="3" value="82"/><column index="4" value="114"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Downloads by Size">SELECT 
 datetime(time) AS Timestamp,
 sensorName, 
 filename AS Filename, 
+CAST(substr(size, 1, length(size) - 2) AS REAL) AS &quot;Size in Kb&quot; ,
 CAST(substr(size / 1024, 1, length(size) - 2) AS REAL) AS &quot;Size in Mb&quot;,
-CAST(substr(size, 1, length(size) - 2) AS REAL) AS &quot;Size in Kb&quot; 
+vtReputation AS &quot;Virus Total Reputation&quot;
 FROM downloadFiles
 ORDER BY &quot;Size in Mb&quot; DESC</sql><sql name="Repeat Download Files">SELECT 
 datetime(time) AS Timestamp,
@@ -11,29 +12,39 @@ sensorName AS Sensor,
 filename AS &quot;Filename&quot;, 
 COUNT(*) AS Repetitions, 
 CAST(substr(size, 1, length(time) - 2) AS REAL) AS &quot;Size in Kb&quot;,
-CAST(substr(size / 1024, 1, length(time) - 2) AS REAL) AS &quot;Size in Mb&quot;
+CAST(substr(size / 1024, 1, length(time) - 2) AS REAL) AS &quot;Size in Mb&quot;,
+vtReputation AS &quot;Virus Total Reputation&quot;
 FROM downloadFiles
 GROUP BY filename
 HAVING COUNT(*) &gt; 1
 ORDER BY Repetitions DESC, size DESC
-</sql><sql name="Cowrie Logfiles by Size">SELECT 
+</sql><sql name="Honeypot Logfiles by Size">SELECT 
 datetime(time) AS Timestamp,
 sensorName, 
 filename AS &quot;Logfile Name&quot;, 
+CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot;,
+CAST(substr(size / 1024, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Mb&quot; 
+FROM webhoneypot
+ORDER BY &quot;Timestamp&quot; DESC</sql><sql name="Cowrie Logfiles by Size">SELECT 
+datetime(time) AS Timestamp,
+sensorName, 
+filename AS &quot;Logfile Name&quot;, 
+CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot;,
 CAST(substr(size / 1024, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Mb&quot; 
 FROM cowrie
-ORDER BY &quot;Timestamp&quot; 
+ORDER BY &quot;Size in Kb&quot; DESC
 </sql><sql name="TTY Logfiles by Size">SELECT 
 datetime(time) AS Timestamp, 
 sensorName, filename AS &quot;Logfile Name&quot;, 
-CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot; 
+CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot;,
+CAST(substr(size / 1024, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Mb&quot; 
 FROM ttyFiles
-ORDER BY &quot;Timestamp&quot; DESC
+ORDER BY &quot;Size in Kb&quot; DESC
 </sql><sql name="DShield Firewall Logfiles by Size">SELECT 
 datetime(time) AS Timestamp, 
 sensorName, 
 filename AS &quot;Logfile Name&quot;, 
-CAST(substr(size / 1024, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Mb&quot;,
-CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot; 
+CAST(substr(size, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Kb&quot;,
+CAST(substr(size / 1024, 1, length(size) - 2) AS FLOAT) AS &quot;Size in Mb&quot; 
 FROM localDshield
-ORDER BY &quot;Size in Kb&quot; DESC</sql><current_tab id="0"/></tab_sql></sqlb_project>
+ORDER BY &quot;Size in Kb&quot; DESC</sql><current_tab id="5"/></tab_sql></sqlb_project>

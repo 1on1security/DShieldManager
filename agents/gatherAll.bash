@@ -4,3 +4,4 @@
 /data/dshieldManager/agents/cowrieDownloads.py
 /data/dshieldManager/agents/cowrieTTY.py
 /data/dshieldManager/agents/packetSync.py
+find /data/dshieldManager/_liveData/ -name .gitignore -delete

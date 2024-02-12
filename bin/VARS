@@ -1,5 +1,6 @@
 # VARS
 dshieldDirectory=/data/dshieldManager
+bin=$dshieldDirectory/bin
 
 # "All the sensors"
 probes=(africa24 australia24 eastasia24 eastus24 europe24 india24 israel24 korea24 southamerica24 southeastasia24 westus24)

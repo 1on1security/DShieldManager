@@ -55,8 +55,8 @@ num_per_column = (num_sensors + 2) // 3  # Ceiling division to ensure all column
 columns = [results[i:i + num_per_column] for i in range(0, num_sensors, num_per_column)]
 
 # Create HTML table with alternating row colors for each sensor
-html_table = "<!DOCTYPE html><html><head><title>Webhoneypot.json Top 5 Source IP Addresses</title></head><body>"
-html_table += "<h1 style='text-align: left; font-family: Verdana;'>Webhoneypot.json Top 5 Source IP Addresses</h1>"
+html_table = "<!DOCTYPE html><html><head><title>Webhoneypot.json Daily: Top 5 Source IP Addresses</title><style>body {background: url('images/blueCamo.jpg') no-repeat center center fixed;background-size: cover;</style></head><body>"
+html_table += "<h1 style='text-align: left; font-family: Verdana;color: white;'>Webhoneypot.json Daily: Top 5 Source IP Addresses</h1>"
 html_table += "<table border='1' style='font-family: Verdana; border-collapse: collapse;'>"
 
 sensor_colors = {}  # Dictionary to store colors for each sensor
