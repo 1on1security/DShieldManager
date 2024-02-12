@@ -61,6 +61,7 @@ honeypot2SQL() {
     sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN response_id" > /dev/null 2>&1
     sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN signature_id" > /dev/null 2>&1
     sqlite3 $dbDir/webhoneypot.db3 "ALTER TABLE webHoneyPot DROP COLUMN data" > /dev/null 2>&1
+    $dbDir/sql/top5IPaddresses.py
     date=
     userDate=
     clear
