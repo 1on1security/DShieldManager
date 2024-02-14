@@ -26,6 +26,7 @@ foo*
 
 # My investigation scratch directory, also private snatches of data.  
 investigation/*
+test/*
 
 # More personally unique information used to add allow admin entries to iptables on honeypots.
 starlinkDenverIPs

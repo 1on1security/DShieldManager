@@ -109,7 +109,7 @@ for i in range(0, len(sensor_rows), sensors_per_column):
             html_table += "</td>"
         else:
             if j == sensors_per_column - 1:  # Check if it's the last cell in the last row
-                html_table += "<td><img src='newLogo.png' alt='New Logo' width='125' height='125' align=right></td>"
+                html_table += "<td><img src='images/1on1Logo.png' alt='New Logo' width='125' height='125' align=right></td>"
             else:
                 html_table += "<td></td>"
     html_table += "</tr>"

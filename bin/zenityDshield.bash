@@ -98,6 +98,7 @@ while item=$(zenity --title="Graphing Menu" --text="Graphing Menu" --list  --wid
 utilities() {
 items=("Sensors: View Status of All Sensors" \
 "Sensors: Execute Remote Command" \
+"Display DShield Manager Disk Usage" \
 "Import/Build the All Honeypot Logs Database - WARNING! Long painful process!" \
 "Open the _HUGE_ Database")
 
@@ -107,8 +108,9 @@ while item=$(zenity --title="Utilities" --text="Utilities" --list  --width=800 -
 		case "$item" in
 			"${items[0]}") sensorStatus ; clear ; cat $dshieldDirectory/bin/banner.txt ;;
 			"${items[1]}") remoteCommand ; clear ; cat $dshieldDirectory/bin/banner.txt ;;
-			"${items[2]}") time allhoneypots2SQL  ;;
-			"${items[3]}") sqlitebrowser $dbDir/sql/everywebhoneypot.sqbpro & ;;
+			"${items[2]}") $dshieldDirectory/bin/diskUse.bash  ; cat $dshieldDirectory/bin/banner.txt ;;
+			"${items[3]}") time allhoneypots2SQL  ;;
+			"${items[4]}") sqlitebrowser $dbDir/sql/everywebhoneypot.sqbpro & ;;
 		esac
 	done	
 }
