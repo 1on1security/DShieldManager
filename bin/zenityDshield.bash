@@ -22,8 +22,8 @@ items=("Download and Sync Fresh Sensor Data" \
 "" \
 "Analyze TTY Logs" \
 "" \
-"Graphing" \
-"" \
+#"Graphing" \
+#"" \
 "Utilities" \
 "-" \
 "Exit")
@@ -37,9 +37,9 @@ while item=$(zenity --title="DShield Manager" --text="DShield Manager" --list  -
 			"${items[3]}") sqlite3Databases ; clear ; cat $dshieldDirectory/bin/banner.txt ;;
 			"${items[5]}") carvePackets ;;
 			"${items[7]}") ttyMenu ;;
-			"${items[9]}") graphFileSizes ;;
-			"${items[11]}") utilities ;;
-			"${items[13]}") exit ;;
+#			"${items[9]}") graphFileSizes ;;
+			"${items[9]}") utilities ;;
+			"${items[11]}") exit ;;
 			*) echo "Sorry, Invalid option." ;;
 		esac
 	done

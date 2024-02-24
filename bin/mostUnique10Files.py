@@ -58,7 +58,7 @@ def identify_unique_files(directory):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python script.py /path/to/directory")
+        print("Usage: mostUnique10Files.py /path/to/directory")
         sys.exit(1)
 
     directory = sys.argv[1]
