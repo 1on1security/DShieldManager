@@ -22,6 +22,7 @@ _incoming/*
 agents/deprecate/*
 bin/test/*
 bin/deprecate/*
+/bin/VARS
 foo*
 
 # My investigation scratch directory, also private snatches of data.  
