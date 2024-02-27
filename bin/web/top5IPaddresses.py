@@ -6,42 +6,25 @@ import sqlite3
 conn = sqlite3.connect('/data/dshieldManager/db/webhoneypot.db3')
 cursor = conn.cursor()
 
-# Query to fetch the top SIP
-top_sip_query = """
-SELECT sip
-FROM (
-    SELECT sip, COUNT(*) AS sip_count
-    FROM webHoneyPot
-    GROUP BY sip
-    ORDER BY sip_count DESC
-    LIMIT 1
-)
-"""
-
-# Execute the query to find the top SIP
-cursor.execute(top_sip_query)
-top_sip = cursor.fetchone()[0]
-
 # Query to fetch the data, excluding the top SIP
-query = f"""
+query = """
 WITH SensorSIPCounts AS (
-    SELECT sensorName, sip, COUNT(sip) AS sip_count
-    FROM webHoneyPot
-    WHERE sip != ?
-    GROUP BY sensorName, sip
-    ORDER BY sensorName, sip_count DESC
+  SELECT sensorName, sip, COUNT(sip) AS sip_count
+  FROM webHoneyPot
+  GROUP BY sensorName, sip
+  ORDER BY sensorName, sip_count DESC
 )
-SELECT sensorName AS Sensor, sip AS "Top Source IP", sip_count AS "Count"
+SELECT sensorName AS Sensor, sip AS "Top 5 Source IP", sip_count AS "Count"
 FROM (
-    SELECT sensorName, sip, sip_count,
-            ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY sip_count DESC) AS row_num
-    FROM SensorSIPCounts
+  SELECT sensorName, sip, sip_count,
+         ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY sip_count DESC) AS row_num
+  FROM SensorSIPCounts
 ) ranked
-WHERE row_num <= 5
+WHERE row_num <= 5;
 """
 
 # Execute the query
-cursor.execute(query, (top_sip,))
+cursor.execute(query)
 
 # Fetch the results
 results = cursor.fetchall()

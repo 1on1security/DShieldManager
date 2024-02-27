@@ -38,28 +38,28 @@ FROM (
   FROM SensorSIPCounts
 ) ranked
 WHERE row_num &lt;= 3;</sql><sql name="TOP 5 URLs by Sensor">WITH SensorURLCounts AS (
-  SELECT sensorName, url, sip, COUNT(url) AS url_count
+  SELECT sensorName, url, sip, dip, COUNT(url) AS url_count
   FROM webHoneyPot
   GROUP BY sensorName, url
   ORDER BY sensorName, url_count DESC
 )
-SELECT sensorName AS Sensor, url AS &quot;Top URL&quot;, sip AS &quot;Source IP&quot;, url_count AS Count
+SELECT sensorName AS Sensor, url AS &quot;Top URL&quot;, sip AS &quot;Source IP&quot;, dip AS &quot;Destination IP&quot;, url_count AS Count
 FROM (
-  SELECT sensorName, url, sip, url_count,
+  SELECT sensorName, url, sip, dip, url_count,
          ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY url_count DESC) AS row_num
   FROM SensorURLCounts
 ) ranked
 WHERE row_num &lt;= 5;
 
 </sql><sql name="Bottom 3 URLs by Sensor">WITH SensorURLCounts AS (
-  SELECT sensorName, url, sip, COUNT(url) AS url_count
+  SELECT sensorName, url, sip, dip, COUNT(url) AS url_count
   FROM webHoneyPot
   GROUP BY sensorName, url
   ORDER BY sensorName, url_count ASC
 )
-SELECT sensorName AS Sensor, url AS &quot;Bottom URL&quot;, sip AS &quot;Source IP&quot;, url_count AS Count
+SELECT sensorName AS Sensor, url AS &quot;Bottom URL&quot;, sip AS &quot;Source IP&quot;, dip AS &quot;Destination IP&quot;, url_count AS Count
 FROM (
-  SELECT sensorName, sip, url_count, url,
+  SELECT sensorName, sip, dip,  url_count, url,
          ROW_NUMBER() OVER (PARTITION BY sensorName ORDER BY url_count ASC) AS row_num
   FROM SensorURLCounts
 ) ranked
@@ -76,7 +76,7 @@ FROM
 	webHoneyPot
 WHERE
 	url 
-LIKE '%/Pages/log/%'
+LIKE '%/cgi-bin/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/.%2e/bin/sh%'
 ORDER BY
 	Timestamp
-</sql><current_tab id="4"/></tab_sql></sqlb_project>
+</sql><current_tab id="6"/></tab_sql></sqlb_project>
