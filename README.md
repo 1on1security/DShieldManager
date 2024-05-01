@@ -1,5 +1,6 @@
 
 # DShieldManager
+### 30 April 2024 - This project is not being actively maintained.
 
 DShield provides a platform for users of firewalls to share intrusion information. DShield is a free and open service.
 
