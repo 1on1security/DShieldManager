@@ -4,7 +4,7 @@
 
 DShield provides a platform for users of firewalls to share intrusion information. DShield is a free and open service.
 
-If you use a firewall, please submit your logs to the DShield database. We recently culled our list of supported firewalls as most uses use our honeypot. But if you have a firewall you would like to see supported, contact us here. You will need to register for a free account to submit data.
+If you use a firewall, please submit your logs to the DShield database. We recently culled our list of supported firewalls as most use our honeypot. But if you have a firewall you would like to see supported, contact us here. You will need to register for a free account to submit data.
 
 Everybody is welcome to use the information collected by us and desimminated via this site to protect their network from intrusion attempts. Let us know how it helps you or how we can improve the data. <a href="https://www.dshield.org/howto.html" target="_blank">Source</a> 
 
